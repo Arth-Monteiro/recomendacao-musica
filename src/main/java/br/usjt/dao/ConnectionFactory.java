@@ -14,10 +14,6 @@ public class ConnectionFactory {
 	private static final String USR = "useradmin";
     private static final String PWD = "useradmin";
 
-    public static void main(String[] args) {
-        obterConexao();
-    }
-    
     public static Connection obterConexao() {
 		try {
 			Class.forName(DRIVER);
