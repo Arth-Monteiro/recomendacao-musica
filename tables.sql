@@ -4,8 +4,8 @@ CREATE DATABASE projeto_recomendacao;
 
 USE projeto_recomendacao;
 
-CREATE TABLE login (
-login_id INT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE users (
+user_id INT PRIMARY KEY AUTO_INCREMENT,
 username VARCHAR(20) NOT NULL UNIQUE,
 senha VARCHAR(16)
 );
@@ -25,9 +25,9 @@ FOREIGN KEY (genero_id) REFERENCES genero(genero_id)
 
 CREATE TABLE avaliacoes (
 avaliacoes_id INT PRIMARY KEY AUTO_INCREMENT,
-login_id INT,
+user_id INT,
 musica_id INT,
 nota_avaliacao INT NOT NULL,
-FOREIGN KEY (login_id) REFERENCES login(login_id),
+FOREIGN KEY (user_id) REFERENCES users(user_id),
 FOREIGN KEY (musica_id) REFERENCES musica(musica_id)
 )
