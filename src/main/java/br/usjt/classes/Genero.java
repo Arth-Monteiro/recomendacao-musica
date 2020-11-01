@@ -1,13 +1,12 @@
 package br.usjt.classes;
 
+import lombok.Getter;
+
 public class Genero {
-    private String nomeGenero;
+    @Getter private String nomeGenero;
 
     public Genero(String nomeGenero) {
         this.nomeGenero = nomeGenero;
     }
 
-    public String getNomeGenero() {
-        return nomeGenero;
-    }    
 }

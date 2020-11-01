@@ -1,31 +1,22 @@
 package br.usjt.classes;
 
 import br.usjt.dao.ConnectionFactory;
+import lombok.*;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
+@Getter @AllArgsConstructor @ToString
 public class User {
-    private String username, password;
+    private String username;
+    @Setter private String password;
 
-    public User(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
+    // public User(String username, String password) {
+    //     this.username = username;
+    //     this.password = password;
+    // }
 
     public static boolean login(Connection conn, String username, String password) throws SQLException {
         String query = "SELECT * FROM users WHERE username = ? AND senha = ?"; // Query para verificar se existe usuario
