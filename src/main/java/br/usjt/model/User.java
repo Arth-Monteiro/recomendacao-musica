@@ -9,6 +9,7 @@ import lombok.ToString;
 @Getter @RequiredArgsConstructor @ToString
 public class User {
     @Setter int userID;
+    @NonNull @Setter private String nome;
     @NonNull private String username;
     @NonNull @Setter private String password;
     @NonNull @Setter private String tipoUser; // R = Regular, A = Administrador, null
