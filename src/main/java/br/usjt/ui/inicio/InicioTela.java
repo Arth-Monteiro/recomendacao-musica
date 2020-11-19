@@ -4,9 +4,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-//import br.usjt.ui.inicio.SignInTela;
-// import br.usjt.ui.inicio.LoginTela;
-
 public class InicioTela extends JFrame {
 
 	private static final long serialVersionUID = -1294657104404327135L;
@@ -93,8 +90,8 @@ public class InicioTela extends JFrame {
 		this.dispose();
     }// GEN-LAST:event_exitButtonActionPerformed
     
-    private void signInButtonActionPerformed(ActionEvent evt) {// GEN-FIRST:event_loginButtonActionPerformed
-        SignInTela signIn = new SignInTela();
+	private void signInButtonActionPerformed(ActionEvent evt) {// GEN-FIRST:event_loginButtonActionPerformed
+		SignInTela signIn = new SignInTela("R");
         signIn.setVisible(true);
         this.dispose();
     }// GEN-LAST:event_loginButtonActionPerformed
