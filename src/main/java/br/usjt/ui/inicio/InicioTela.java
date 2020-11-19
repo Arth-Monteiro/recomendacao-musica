@@ -4,12 +4,16 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+//import br.usjt.ui.inicio.SignInTela;
+// import br.usjt.ui.inicio.LoginTela;
+
 public class InicioTela extends JFrame {
 
 	private static final long serialVersionUID = -1294657104404327135L;
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private JPanel panel;
+	private JLabel messageLabel;
 	private JButton signInButton;
     private JButton loginButton;
 	private JButton exitButton;
@@ -27,38 +31,29 @@ public class InicioTela extends JFrame {
     private void initComponents() {
 
 		panel = new JPanel();
+		messageLabel = new JLabel();
 		signInButton = new JButton();
 		loginButton = new JButton();
 		exitButton = new JButton();
 
-
+		setPreferredSize(new Dimension(500, 400));
+		
 		Container cont = getContentPane();
 		cont.setLayout(new GridBagLayout());
 		add(panel);
 
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
+		messageLabel.setText("Bem vindo ao Sistema de Recomendação Musical ACME");
 		signInButton.setText("Sign in");
-		signInButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                signInButtonActionPerformed(evt);
-            }
-        });
-        
 		loginButton.setText("Login");
-		loginButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                loginButtonActionPerformed(evt);
-            }
-        });
-        
-        exitButton.setText("Sair");
-        exitButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                exitButtonActionPerformed(evt);
-            }
-		});
-		
+		exitButton.setText("Sair");
+
+		signInButton.addActionListener(evt -> signInButtonActionPerformed(evt));
+		loginButton.addActionListener(evt -> loginButtonActionPerformed(evt));
+		exitButton.addActionListener(evt -> exitButtonActionPerformed(evt));
+        		
+		panel.add(messageLabel);
 		panel.add(signInButton);
 		panel.add(loginButton);
 		panel.add(exitButton);
@@ -70,27 +65,27 @@ public class InicioTela extends JFrame {
 		layout.setAutoCreateContainerGaps(true);
 		
 		layout.setHorizontalGroup(
-			layout.createParallelGroup(GroupLayout.Alignment.CENTER).addGroup(
-				layout.createSequentialGroup().addGroup(
-					layout.createParallelGroup(GroupLayout.Alignment.CENTER).addGroup(
-						layout.createSequentialGroup()
-							.addComponent(signInButton, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-							.addComponent(loginButton,  GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-					)
-					.addComponent(exitButton,  GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+			layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+				.addComponent(messageLabel)
+				.addGroup(
+					layout.createSequentialGroup()
+						.addComponent(signInButton, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+						.addComponent(loginButton,  GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
 				)
-			)
+				.addComponent(exitButton,  GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
 		);
 
 		layout.setVerticalGroup(
-			layout.createSequentialGroup().addGroup(
-				layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-					.addComponent(signInButton,  GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-					.addComponent(loginButton,  GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-			).addComponent(exitButton,  GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+			layout.createSequentialGroup()
+				.addComponent(messageLabel,GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+				.addGroup(
+					layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+						.addComponent(signInButton, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+						.addComponent(loginButton, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+				)
+				.addComponent(exitButton, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 		);
 
-		setPreferredSize(new Dimension(500, 400));
 		pack();
     }// </editor-fold>//GEN-END:initComponents
     
@@ -99,15 +94,15 @@ public class InicioTela extends JFrame {
     }// GEN-LAST:event_exitButtonActionPerformed
     
     private void signInButtonActionPerformed(ActionEvent evt) {// GEN-FIRST:event_loginButtonActionPerformed
-        // SignInTela signIn = new SignInTela();
-        // signIn.setVisible(true);
-        // this.dispose();
+        SignInTela signIn = new SignInTela();
+        signIn.setVisible(true);
+        this.dispose();
     }// GEN-LAST:event_loginButtonActionPerformed
     
     private void loginButtonActionPerformed(ActionEvent evt) {// GEN-FIRST:event_loginButtonActionPerformed
-        // LoginTela login = new LoginTela();
-        // login.setVisible(true);
-        // this.dispose();
+        LoginTela login = new LoginTela();
+        login.setVisible(true);
+        this.dispose();
     }// GEN-LAST:event_loginButtonActionPerformed
     
     public static void main(String args[]) {

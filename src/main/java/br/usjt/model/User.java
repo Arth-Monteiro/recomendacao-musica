@@ -12,6 +12,11 @@ public class User {
     @NonNull @Setter private String nome;
     @NonNull private String username;
     @NonNull @Setter private String password;
-    @NonNull @Setter private String tipoUser; // R = Regular, A = Administrador, null
+    @NonNull @Setter private String tipoUser; // R = Regular, A = Administrador
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 }
 

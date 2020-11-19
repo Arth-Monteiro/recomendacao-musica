@@ -23,9 +23,11 @@ public class UserDAO {
             // Executa a Query
             try (ResultSet res = stmt.executeQuery()) {
                 if (res.next()) {
+                    String nome = res.getString("nome");
                     int userID = res.getInt("id");
                     String tipoUser = res.getString("tipo");
 
+                    user.setNome(nome);
                     user.setUserID(userID);
                     user.setTipoUser(tipoUser);
                     
@@ -58,26 +60,20 @@ public class UserDAO {
 
     public boolean signin(User user) throws Exception {
         // Query para cadastrar usuario
-        String query = "INSERT INTO users (username, senha, tipo) VALUES (?, ?, ?)";
-
-        if (!verificarUsername(user.getUsername())) {
+        String query = "INSERT INTO users (nome, username, senha, tipo) VALUES (?, ?, ?, ?)";
             try (Connection conn = ConnectionFactory.obterConexao(); 
                     PreparedStatement stmt = conn.prepareStatement(query)) {
-                        
-                stmt.setString(1, user.getUsername());
-                stmt.setString(2, user.getPassword());
-                if (user.getTipoUser() == null) {
-                    stmt.setString(3, "R");
-                } else {
-                    stmt.setString(3, user.getTipoUser());
-                }
+                
+                stmt.setString(1, user.getNome());
+                stmt.setString(2, user.getUsername());
+                stmt.setString(3, user.getPassword());
+                stmt.setString(4, user.getTipoUser());
 
                 stmt.execute();
                 return true; // Usuario cadastrado com sucesso
+            } catch (Exception e) {
+                return false; // Usuario não cadastrado
             }
-        } else {
-            return false; // Usuario nao cadastrado pois ja existe o username
-        }
     }
 
     public boolean excluirConta(int userID) throws Exception {
