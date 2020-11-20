@@ -1,11 +1,8 @@
-package br.usjt.ui.inicio;
+package br.usjt.ui;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-
-//import br.usjt.ui.inicio.SignInTela;
-// import br.usjt.ui.inicio.LoginTela;
 
 public class InicioTela extends JFrame {
 
@@ -38,9 +35,11 @@ public class InicioTela extends JFrame {
 
 		setPreferredSize(new Dimension(500, 400));
 		
-		Container cont = getContentPane();
-		cont.setLayout(new GridBagLayout());
-		add(panel);
+		// Container cont = getContentPane();
+		// cont.setLayout(new GridBagLayout());
+		panel.setOpaque(false);
+		getContentPane().setBackground(Color.BLACK);
+		add(panel, BorderLayout.CENTER);
 
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -57,6 +56,7 @@ public class InicioTela extends JFrame {
 		panel.add(signInButton);
 		panel.add(loginButton);
 		panel.add(exitButton);
+
 
 		GroupLayout layout = new GroupLayout(panel);
 		panel.setLayout(layout);
@@ -86,6 +86,30 @@ public class InicioTela extends JFrame {
 				.addComponent(exitButton, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 		);
 
+		// GroupLayout layoutCont = new GroupLayout(getContentPane());
+		// getContentPane().setLayout(layoutCont);
+		// layoutCont.setHorizontalGroup(
+		// 	layoutCont.createParallelGroup(GroupLayout.Alignment.LEADING)
+		// 	.addGroup(
+		// 		GroupLayout.Alignment.CENTER, 
+		// 		layoutCont.createSequentialGroup()
+		// 		.addComponent(panel, GroupLayout.PREFERRED_SIZE, 300, GroupLayout.PREFERRED_SIZE)
+		// 		.addContainerGap(300, Short.MAX_VALUE)
+		// 	)
+				
+		// );
+
+		// layoutCont.setVerticalGroup(
+		// 	layoutCont.createParallelGroup(GroupLayout.Alignment.TRAILING)
+		// 	.addGroup(
+		// 		GroupLayout.Alignment.CENTER, 
+		// 		layoutCont.createSequentialGroup()
+		// 		.addComponent(panel, GroupLayout.PREFERRED_SIZE, 300, GroupLayout.PREFERRED_SIZE)
+		// 		.addContainerGap(10, Short.MAX_VALUE)
+		// 	)
+		// );
+
+
 		pack();
     }// </editor-fold>//GEN-END:initComponents
     
@@ -93,8 +117,8 @@ public class InicioTela extends JFrame {
 		this.dispose();
     }// GEN-LAST:event_exitButtonActionPerformed
     
-    private void signInButtonActionPerformed(ActionEvent evt) {// GEN-FIRST:event_loginButtonActionPerformed
-        SignInTela signIn = new SignInTela();
+	private void signInButtonActionPerformed(ActionEvent evt) {// GEN-FIRST:event_loginButtonActionPerformed
+		SignInTela signIn = new SignInTela("R");
         signIn.setVisible(true);
         this.dispose();
     }// GEN-LAST:event_loginButtonActionPerformed

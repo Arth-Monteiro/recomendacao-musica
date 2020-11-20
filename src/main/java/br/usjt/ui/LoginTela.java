@@ -1,4 +1,4 @@
-package br.usjt.ui.inicio;
+package br.usjt.ui;
 
 import java.awt.*;
 import java.awt.event.*;

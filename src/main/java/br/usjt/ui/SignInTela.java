@@ -1,4 +1,4 @@
-package br.usjt.ui.inicio;
+package br.usjt.ui;
 
 
 import java.awt.*;
@@ -9,7 +9,6 @@ import br.usjt.model.User;
 import br.usjt.dao.UserDAO;
 
 public class SignInTela extends JFrame {
-
     
     private static final long serialVersionUID = 8375820291505276171L;
 
@@ -19,27 +18,26 @@ public class SignInTela extends JFrame {
     private JTextField usrTextField;
     private JPasswordField pwdPasswordField;
     private JPasswordField confPwdPasswordField;
-    // private JComboBox<String> tipoUserComboBox;
 	private JButton signInButton;
     private JButton exitButton;
-    // private String[] tipoUser = {"Regular", "Administrador"};
-        // End of variables declaration//GEN-END:variables
+    private JCheckBox tipoUsrCheckBox;
+    // End of variables declaration//GEN-END:variables
     
-    public SignInTela() {
+    public SignInTela(String tipoUser) {
         super("Sign In");
-		initComponents();
+		initComponents(tipoUser);
 		this.setLocationRelativeTo(null);
     }
 
-    private void initComponents() {
+    private void initComponents(String tipoUser) {
         panel = new JPanel();
         nomeTextField = new JTextField();
         usrTextField = new JTextField();
         pwdPasswordField = new JPasswordField();
         confPwdPasswordField = new JPasswordField();
-        // tipoUserComboBox = new JComboBox<>();
 		signInButton = new JButton();
         exitButton = new JButton();
+        tipoUsrCheckBox = new JCheckBox("Adm");
 
         setPreferredSize(new Dimension(500, 400));
         
@@ -54,25 +52,23 @@ public class SignInTela extends JFrame {
 		pwdPasswordField.setBorder(BorderFactory.createTitledBorder("Digite sua senha"));
 		confPwdPasswordField.setBorder(BorderFactory.createTitledBorder("Confirmar senha"));
         
-        // tipoUserComboBox.setModel(new DefaultComboBoxModel<>(tipoUser));
-
         signInButton.setText("Sign in");
 		exitButton.setText("Sair");
 
         signInButton.addActionListener(evt -> signInButtonActionPerformed(evt));
         exitButton.addActionListener(evt -> exitButtonActionPerformed(evt));
 
-        // if (!(adm.getTipoUser().equals("A"))) {
-        //     tipoUserComboBox.setEnabled(false);
-        // }
+        if (!(tipoUser.equals("A"))) {
+            tipoUsrCheckBox.setVisible(false);
+        }
 
         panel.add(nomeTextField);
         panel.add(usrTextField);
         panel.add(pwdPasswordField);
         panel.add(confPwdPasswordField);
-        // panel.add(tipoUserComboBox);
         panel.add(signInButton);
         panel.add(exitButton);
+        panel.add(tipoUsrCheckBox);
 
         GroupLayout layout = new GroupLayout(panel);
 		panel.setLayout(layout);
@@ -82,16 +78,16 @@ public class SignInTela extends JFrame {
 		
         layout.setHorizontalGroup(
             layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                   .addComponent(nomeTextField, GroupLayout.PREFERRED_SIZE, 165, GroupLayout.PREFERRED_SIZE)
-                   .addComponent(usrTextField, GroupLayout.PREFERRED_SIZE, 165, GroupLayout.PREFERRED_SIZE)
-                   .addComponent(pwdPasswordField, GroupLayout.PREFERRED_SIZE, 165, GroupLayout.PREFERRED_SIZE)
-                   .addComponent(confPwdPasswordField, GroupLayout.PREFERRED_SIZE, 165, GroupLayout.PREFERRED_SIZE)
-                //    .addComponent(tipoUserComboBox, GroupLayout.PREFERRED_SIZE, 165, GroupLayout.PREFERRED_SIZE)
-                    .addGroup(
-                        layout.createSequentialGroup()
-                            .addComponent(signInButton, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-                            .addComponent(exitButton, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-                    )
+                .addComponent(nomeTextField, GroupLayout.PREFERRED_SIZE, 165, GroupLayout.PREFERRED_SIZE)
+                .addComponent(usrTextField, GroupLayout.PREFERRED_SIZE, 165, GroupLayout.PREFERRED_SIZE)
+                .addComponent(pwdPasswordField, GroupLayout.PREFERRED_SIZE, 165, GroupLayout.PREFERRED_SIZE)
+                .addComponent(confPwdPasswordField, GroupLayout.PREFERRED_SIZE, 165, GroupLayout.PREFERRED_SIZE)
+                .addComponent(tipoUsrCheckBox)
+                .addGroup(
+                    layout.createSequentialGroup()
+                        .addComponent(signInButton, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(exitButton, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+                )
         );
 
         layout.setVerticalGroup(
@@ -100,7 +96,7 @@ public class SignInTela extends JFrame {
                 .addComponent(usrTextField, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
                 .addComponent(pwdPasswordField, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
                 .addComponent(confPwdPasswordField, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
-                // .addComponent(tipoUserComboBox, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+                .addComponent(tipoUsrCheckBox)
                 .addGroup(
                     layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                         .addComponent(signInButton, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
@@ -190,7 +186,7 @@ public class SignInTela extends JFrame {
 		/* Create and display the form */
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				new SignInTela().setVisible(true);
+				new SignInTela("R").setVisible(true);
 			}
 		});
 	}
