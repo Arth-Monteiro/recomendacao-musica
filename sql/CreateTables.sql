@@ -6,6 +6,7 @@ USE projeto_recomendacao;
 
 CREATE TABLE users (
     id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(16),
     username VARCHAR(20) NOT NULL UNIQUE,
     senha VARCHAR(16),
     tipo CHAR(1)
