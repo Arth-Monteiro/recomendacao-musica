@@ -91,14 +91,14 @@ public class UserDAO {
         }
     }
 
-    public boolean atualizarSenha(User user) throws Exception {
+    public boolean atualizarSenha(String password, int userID) throws Exception {
         String query = "UPDATE users SET senha = ? WHERE id = ?";
 
         try (Connection conn = ConnectionFactory.obterConexao(); 
                 PreparedStatement stmt = conn.prepareStatement(query)) {
 
-            stmt.setString(1, user.getPassword());
-            stmt.setInt(2, user.getUserID());
+            stmt.setString(1, password);
+            stmt.setInt(2, userID);
             stmt.execute();
             return true; // Senha alterada com sucesso
         } catch (Exception e) {

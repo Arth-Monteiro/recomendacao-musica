@@ -10,7 +10,7 @@ import br.usjt.dao.UserDAO;
 public class Login extends FramePrincipal {
 
     private static final long serialVersionUID = -8935881705739072112L;
-    
+
     private JLabel usrLabel, pwdLabel;
     private JTextField usrTextField;
     private JPasswordField pwdPasswordField;
@@ -62,19 +62,19 @@ public class Login extends FramePrincipal {
             )
             .addGroup(
                 layout.createSequentialGroup()
-                .addComponent(loginButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addComponent(darkModeButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addComponent(loginButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addComponent(exitButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
             )
         );
 
         layout.setVerticalGroup(
-           layout.createSequentialGroup()
-           .addGroup(
+            layout.createSequentialGroup()
+            .addGroup(
                 layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(usrLabel)
                 .addComponent(usrTextField)
-           )
+            )
            .addGroup(
                 layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(pwdLabel)
@@ -82,10 +82,10 @@ public class Login extends FramePrincipal {
             )
             .addGap(20)
             .addGroup(
-                    layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(loginButton, GroupLayout.PREFERRED_SIZE,  GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(darkModeButton, GroupLayout.PREFERRED_SIZE,  GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(exitButton, GroupLayout.PREFERRED_SIZE,  GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(darkModeButton, GroupLayout.PREFERRED_SIZE,  GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addComponent(loginButton, GroupLayout.PREFERRED_SIZE,  GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addComponent(exitButton, GroupLayout.PREFERRED_SIZE,  GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
             )
         );
 
@@ -100,14 +100,14 @@ public class Login extends FramePrincipal {
         
         try {
             UserDAO userDao = new UserDAO();
-            User usuario = new User(usr, pwd);
-            if (userDao.login(usuario)) {
-                if (usuario.getTipoUser().equals("R")) {
-                    // Usuario usuario = new Usuario(usuario);
-                    // usuario.setVisible(true);
-                    // this.dispose();
+            User user = new User(usr, pwd);
+            if (userDao.login(user)) {
+                if (user.getTipoUser().equals("R")) {
+                    Usuario usuario = new Usuario(user);
+                    usuario.setVisible(true);
+                    this.dispose();
                 } else {
-                    // Adm adm = new Adm(usuario);
+                    // Adm adm = new Adm(user);
                     // adm.setVisible(true);
                     // this.dispose();
                 }

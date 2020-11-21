@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import br.usjt.model.User;
+
 public class Inicio extends FramePrincipal {
 
     private static final long serialVersionUID = -6627393089076807210L;
@@ -41,9 +43,9 @@ public class Inicio extends FramePrincipal {
             .addComponent(messageLabel)
             .addGroup(
                 layout.createSequentialGroup()
+                .addComponent(darkModeButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addComponent(signInButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addComponent(loginButton,  GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addComponent(darkModeButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
             )
             .addComponent(exitButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
 		);
@@ -53,9 +55,9 @@ public class Inicio extends FramePrincipal {
             .addComponent(messageLabel,GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
             .addGroup(
                 layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(darkModeButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addComponent(signInButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addComponent(loginButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addComponent(darkModeButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
             )
             .addComponent(exitButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
         );
@@ -63,7 +65,9 @@ public class Inicio extends FramePrincipal {
     }
 
     private void signInButtonActionPerformed(ActionEvent evt) {
-        SignIn signIn = new SignIn("R");
+        // SignIn signIn = new SignIn("R");
+        User user = new User("", "", "", "R");
+        SignIn signIn = new SignIn(user);
         signIn.setVisible(true);
         this.dispose();
     }
