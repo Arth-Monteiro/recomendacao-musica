@@ -10,7 +10,7 @@ import br.usjt.model.Genero;
 public class GeneroDAO {
 
     public Genero[] obterGeneros() throws Exception {
-        String sql = "SELECT * FROM generos";
+        String sql = "SELECT * FROM genero ORDER BY nome";
         
 		try (Connection conn = ConnectionFactory.obterConexao();
 				PreparedStatement stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -28,7 +28,22 @@ public class GeneroDAO {
 			}
 			return generos;
 		}
-	}
+    }
+    
+    public boolean verificarGenero(String nomeGenero) throws Exception {
+        String query = "SELECT nome FROM genero WHERE nome = ?";
+        try (Connection conn = ConnectionFactory.obterConexao(); 
+                PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, nomeGenero);
+            try (ResultSet res = stmt.executeQuery()) {
+                if (res.next()) {
+                    return true; // Caso encontre algum nomeGenero
+                } else {
+                    return false; // Caso nao encontre esse nomeGenero
+                }
+            }
+        }
+    }
     
     public boolean inserir(String nomeGenero) throws Exception {
         String query = "INSERT INTO genero (nome) VALUES (?)";
@@ -45,16 +60,35 @@ public class GeneroDAO {
     }
 
     public boolean excluir(int generoID) throws Exception {
-        String query = "DELETE FROM users WHERE id = ?";
+        String query = "DELETE FROM genero WHERE id = ?";
         
-        try (Connection conn = ConnectionFactory.obterConexao(); 
-                PreparedStatement stmt = conn.prepareStatement(query)) {
+        if (new MusicaGeneroDAO().excluirGenero(generoID)) {
+            try (Connection conn = ConnectionFactory.obterConexao(); 
+                    PreparedStatement stmt = conn.prepareStatement(query)) {
+                
+                stmt.setInt(1, generoID);
+                stmt.execute(); 
+                return true; // Genero excluido com sucesso
+            } catch (Exception e) {
+                return false; // Genero não excluido devido algum problema
+            }
+        } else {
+            return false;
+        }
+    }
 
-            stmt.setInt(1, generoID);
+    public boolean alterar(Genero genero) throws Exception {
+        String query = "UPDATE genero SET nome = ? WHERE id = ?";
+
+        try (Connection conn = ConnectionFactory.obterConexao(); 
+        PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, genero.getNomeGenero());
+            stmt.setInt(2, genero.getGeneroID());
             stmt.execute(); 
-            return true; // Genero excluido com sucesso
+            return true; // Genero alterado com sucesso
         } catch (Exception e) {
-            return false; // Genero não excluido devido algum problema
+            return false; // Genero nao alterado devido algum problema
         }
     }
 }

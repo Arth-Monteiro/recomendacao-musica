@@ -4,9 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.RequiredArgsConstructor;
 import lombok.NonNull;
-import lombok.ToString;
 
-@Getter @RequiredArgsConstructor @ToString
+@Getter @RequiredArgsConstructor 
 public class User {
     @Setter int userID;
     @NonNull @Setter private String nome;

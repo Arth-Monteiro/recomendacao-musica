@@ -10,7 +10,7 @@ public class FramePrincipal extends JFrame {
 
     protected Container container;
     protected JPanel panel;
-    protected JButton darkModeButton, exitButton;
+    protected JButton darkModeButton, exitButton, inicioButton;
 
     public FramePrincipal() {
         super("Recomendação de Músicas");
@@ -32,6 +32,8 @@ public class FramePrincipal extends JFrame {
         
         this.exitButton = criarJButton("SAIR");
 
+        this.inicioButton = criarJButton("INICIO");
+
         panel.setOpaque(false);
 
         container.add(panel);
@@ -39,9 +41,11 @@ public class FramePrincipal extends JFrame {
         
         darkModeButton.addActionListener(evt -> darkButtonActionPerformed(evt));
         exitButton.addActionListener(evt -> exitButtonActionPerformed(evt));
+        inicioButton.addActionListener(evt -> inicioButtonActionPerformed(evt));
 
         panel.add(darkModeButton);
         panel.add(exitButton);
+        panel.add(inicioButton);
 
     }
 
@@ -55,6 +59,12 @@ public class FramePrincipal extends JFrame {
             darkModeButton.setBackground(converteRGB("3b3b3b"));
             darkModeButton.setText("DARK");
         }
+    }
+
+    private void inicioButtonActionPerformed(ActionEvent evt) {
+        Inicio inicio = new Inicio();
+        inicio.setVisible(true);
+        this.dispose();
     }
 
     private void exitButtonActionPerformed(ActionEvent evt) {

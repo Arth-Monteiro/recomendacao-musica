@@ -17,14 +17,11 @@ public class SignIn extends FramePrincipal {
 	private JButton signInButton;
     private JCheckBox tipoUsrCheckBox;
 
-    // public SignIn(String tipoUser) {
     public SignIn(User user) {
-        // initTelaSignIn(tipoUser);
         initTelaSignIn(user);
         this.setLocationRelativeTo(container);
     }
 
-    // private void initTelaSignIn(String tipoUser) {
     private void initTelaSignIn(User user) {
         Font fonteLabels = null;
         Color branco = Color.WHITE;
@@ -48,9 +45,6 @@ public class SignIn extends FramePrincipal {
 
         signInButton.addActionListener(evt -> signInButtonActionPerformed(evt, user));
 
-        // if (!(tipoUser.equals("A"))) {
-        //     tipoUsrCheckBox.setVisible(false);
-        // }
         if (!(user.getTipoUser().equals("A"))) {
             tipoUsrCheckBox.setVisible(false);
         }
@@ -104,8 +98,12 @@ public class SignIn extends FramePrincipal {
             )
             .addGroup(
                 layout.createSequentialGroup()
-                .addComponent(darkModeButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addComponent(signInButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+            )
+            .addGroup(
+                layout.createSequentialGroup()
+                .addComponent(darkModeButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addComponent(inicioButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addComponent(exitButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
             )
         );
@@ -140,8 +138,13 @@ public class SignIn extends FramePrincipal {
             .addGap(20)
             .addGroup(
                 layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                .addComponent(darkModeButton, GroupLayout.PREFERRED_SIZE,  GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addComponent(signInButton, GroupLayout.PREFERRED_SIZE,  GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+            )
+            .addGap(10)
+            .addGroup(
+                layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(darkModeButton, GroupLayout.PREFERRED_SIZE,  GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addComponent(inicioButton, GroupLayout.PREFERRED_SIZE,  GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addComponent(exitButton, GroupLayout.PREFERRED_SIZE,  GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
             )
         );
@@ -160,7 +163,7 @@ public class SignIn extends FramePrincipal {
 
         if (!pwd.equals(confPwd)) {
             JOptionPane.showMessageDialog(null, "Suas senhas não estão iguais!", "Senhas Divergentes", 0);
-        } else if ((nome.isEmpty()) || (nome.length() > 16 )) {
+        } else if ((nome.isEmpty()) || (nome.length() > 50 )) {
             JOptionPane.showMessageDialog(null, "Campo 'Primeiro Nome' incorreto!", "Campo Incorreto", 0);
         } else if ((usr.isEmpty()) || (usr.length() > 20 )) {
             JOptionPane.showMessageDialog(null, "Campo 'Username' incorreto!", "Campo Incorreto", 0);
@@ -175,14 +178,12 @@ public class SignIn extends FramePrincipal {
                     if (userDao.signin(usuario)) {
                         userDao.login(usuario);
                         //Ir para tela de usuario dependendo do tipo
-                        if (usuario.getTipoUser().equals("R")) {
-                            Usuario usuarioTela = new Usuario(usuario);
-                            usuarioTela.setVisible(true);
+                        if ((!user.getTipoUser().equals("A")) && (usuario.getTipoUser().equals("R"))) {
+                            new UsuarioComum(usuario).setVisible(true);
                             this.dispose();
                         } else {
-                            // AdmTela admTela = new AdmTela(user);
-                            // admTela.setVisible(true);
-                            // this.dispose();
+                            new UsuarioAdm(user).setVisible(true);
+                            this.dispose();
                         }
                     }
                 } else {
@@ -216,7 +217,6 @@ public class SignIn extends FramePrincipal {
 		/* Create and display the form */
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-                // new SignIn("R").setVisible(true);
                 User user = new User("", "", "", "R");
 				new SignIn(user).setVisible(true);
 			}

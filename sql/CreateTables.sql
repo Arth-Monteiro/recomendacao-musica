@@ -6,11 +6,15 @@ USE projeto_recomendacao;
 
 CREATE TABLE users (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(16),
+    nome VARCHAR(50),
     username VARCHAR(20) NOT NULL UNIQUE,
     senha VARCHAR(16),
     tipo CHAR(1)
 );
+
+INSERT INTO users (nome, username, senha, tipo) VALUES 
+('Teste', 'testuser', '12345678', 'R'),
+('Teste', 'testadm', '12345678', 'A');
 
 CREATE TABLE genero (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -18,13 +22,21 @@ CREATE TABLE genero (
 );
 
 CREATE TABLE musica (
-    musica_id INT PRIMARY KEY AUTO_INCREMENT,
-    genero_id INT,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     nome_musica VARCHAR(255),
-    posto FLOAT,
-    FOREIGN KEY (genero_id) 
-        REFERENCES genero(id)
+    nome_artista VARCHAR(255),
+    posto FLOAT
 );
+
+CREATE TABLE musicaGenero (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    musica_id INT,
+    genero_id INT,
+    FOREIGN KEY (musica_id)
+        REFERENCES musica(id),
+    FOREIGN KEY (genero_id)
+        REFERENCES genero(id)
+)
 
 CREATE TABLE avaliacoes (
     avaliacoes_id INT PRIMARY KEY AUTO_INCREMENT,

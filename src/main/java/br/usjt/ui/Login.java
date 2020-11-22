@@ -62,8 +62,12 @@ public class Login extends FramePrincipal {
             )
             .addGroup(
                 layout.createSequentialGroup()
-                .addComponent(darkModeButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addComponent(loginButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+            )
+            .addGroup(
+                layout.createSequentialGroup()
+                .addComponent(darkModeButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addComponent(inicioButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addComponent(exitButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
             )
         );
@@ -83,8 +87,15 @@ public class Login extends FramePrincipal {
             .addGap(20)
             .addGroup(
                 layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                .addComponent(darkModeButton, GroupLayout.PREFERRED_SIZE,  GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                
                 .addComponent(loginButton, GroupLayout.PREFERRED_SIZE,  GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                
+            )
+            .addGap(10)
+            .addGroup(
+                layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(darkModeButton, GroupLayout.PREFERRED_SIZE,  GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addComponent(inicioButton, GroupLayout.PREFERRED_SIZE,  GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addComponent(exitButton, GroupLayout.PREFERRED_SIZE,  GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
             )
         );
@@ -103,13 +114,11 @@ public class Login extends FramePrincipal {
             User user = new User(usr, pwd);
             if (userDao.login(user)) {
                 if (user.getTipoUser().equals("R")) {
-                    Usuario usuario = new Usuario(user);
-                    usuario.setVisible(true);
+                    new UsuarioComum(user).setVisible(true);
                     this.dispose();
                 } else {
-                    // Adm adm = new Adm(user);
-                    // adm.setVisible(true);
-                    // this.dispose();
+                    new UsuarioAdm(user).setVisible(true);
+                    this.dispose();
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Username ou senha incorretas!", "Informação Incorreta", 0);
