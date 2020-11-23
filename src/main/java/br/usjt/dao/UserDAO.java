@@ -80,13 +80,17 @@ public class UserDAO {
         // Query para deletar usuario
         String query = "DELETE FROM users WHERE id = ?";
         
-        try (Connection conn = ConnectionFactory.obterConexao(); 
-                PreparedStatement stmt = conn.prepareStatement(query)) {
+        if (new UserGeneroDAO().excluirUser(userID)) {
+            try (Connection conn = ConnectionFactory.obterConexao(); 
+                    PreparedStatement stmt = conn.prepareStatement(query)) {
 
-            stmt.setInt(1, userID);
-            stmt.execute(); 
-            return true; // Usuario excluido com sucesso
-        } catch (Exception e) {
+                stmt.setInt(1, userID);
+                stmt.execute(); 
+                return true; // Usuario excluido com sucesso
+            } catch (Exception e) {
+                return false; // Usuario nao excluido devido algum problema
+            }
+        } else {
             return false; // Usuario nao excluido devido algum problema
         }
     }

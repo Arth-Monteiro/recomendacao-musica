@@ -38,13 +38,44 @@ CREATE TABLE musicaGenero (
         REFERENCES genero(id)
 )
 
+CREATE TABLE userGenero (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    genero_id INT,
+    FOREIGN KEY (user_id)
+        REFERENCES users(id),
+    FOREIGN KEY (genero_id)
+        REFERENCES genero(id)
+)
+
 CREATE TABLE avaliacoes (
     avaliacoes_id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT,
     musica_id INT,
-    nota_avaliacao INT NOT NULL,
+    nota_avaliacao FLOAT NOT NULL,
     FOREIGN KEY (user_id)
          REFERENCES users(id),
     FOREIGN KEY (musica_id) 
-        REFERENCES musica(musica_id)
+        REFERENCES musica(id)
 )
+
+SET SQL_SAFE_UPDATES = 0;
+
+DELIMITER $$
+CREATE TRIGGER update_posto
+	AFTER INSERT
+	ON avaliacoes FOR EACH ROW
+BEGIN
+UPDATE musica AS dest
+    INNER JOIN 
+		(SELECT SUM(nota_avaliacao)/contagem AS posto, avaliacoes.musica_id FROM avaliacoes
+		INNER JOIN (
+			SELECT musica_id, COUNT(musica_id) AS contagem FROM avaliacoes
+			GROUP BY musica_id
+		) A 
+		ON A.musica_id = avaliacoes.musica_id
+		GROUP BY avaliacoes.musica_id
+	) AS src ON src.musica_id = dest.id
+	SET dest.posto = src.posto
+    WHERE dest.id = src.musica_id;
+END;

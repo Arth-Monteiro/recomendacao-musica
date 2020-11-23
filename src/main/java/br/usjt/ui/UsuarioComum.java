@@ -19,27 +19,27 @@ public class UsuarioComum extends Usuario {
 
     private void initTelaUsuarioComum(User user) {
 
-        String[] oQueFazer = {"Escolha uma opção", 
+        String[] oQueFazer = {"Escolha uma opção...", 
+                                "Configurar Gêneros Favoritos",
                                 "Avaliar Música", 
-                                "Alterar Avaliação", 
                                 "Receber Recomendação", 
                                 "Alterar Senha", 
                                 "Excluir conta"};
 
         oQueFazerComboBox.setModel(new DefaultComboBoxModel<>(oQueFazer));
        
-        oQueFazerComboBox.addActionListener(evt -> verificarOQueFazerActionPerformed(evt, user.getUserID()));
+        oQueFazerComboBox.addActionListener(evt -> verificarOQueFazerActionPerformed(evt, user));
     }
 
-    private void verificarOQueFazerActionPerformed(ActionEvent evt, int userID) {
+    private void verificarOQueFazerActionPerformed(ActionEvent evt, User user) {
         int opcao = oQueFazerComboBox.getSelectedIndex();
         switch (opcao) {
             case 0: limparPanel(evt); break;
-            // case 1: avaliarMusicaActionPerformed(evt); break;
-            // case 2: alterAvalicaoActionPerformed(evt); break;
+            case 1: new GenerosFavoritos(user).setVisible(true); this.dispose(); break;
+            case 2: new AvaliarMusica(user).setVisible(true); this.dispose(); break; // Avaliar, Alterar e ou Excluir 
             // case 3: RecomendarActionPerformed(evt); break;
-            case 4: alterSenhaActionPerformed(evt, userID); break;
-            case 5: excludeAccountActionPerformed(evt, userID); break;
+            case 4: alterSenhaActionPerformed(evt, user.getUserID()); break;
+            case 5: excludeAccountActionPerformed(evt, user.getUserID()); break;
         }
     }
 

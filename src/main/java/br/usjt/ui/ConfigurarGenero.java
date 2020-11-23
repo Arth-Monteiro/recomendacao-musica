@@ -1,7 +1,5 @@
 package br.usjt.ui;
 
-import javax.swing.JComboBox;
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -30,7 +28,7 @@ public class ConfigurarGenero extends FramePrincipal {
         Font fonteLabels = new Font("sansserif", Font.BOLD, 13);
         Color branco = Color.WHITE;
 
-        String[] oQueFazer = {"Escolha uma opção", 
+        String[] oQueFazer = {"Escolha uma opção...", 
                                 "Cadastrar Gênero",
                                 "Verificar Gêneros",
                                 "Alterar Cadastro Gênero", 
@@ -148,7 +146,6 @@ public class ConfigurarGenero extends FramePrincipal {
         try {
 			GeneroDAO generoDao = new GeneroDAO();
             Genero[] generos = generoDao.obterGeneros();
-            System.out.println(generos);
 			generosComboBox.setModel(new DefaultComboBoxModel<>(generos));
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Erro ao buscar gêneros, tente novamente mais tarde.", "Gêneros Indisponíveis", 0);
@@ -182,7 +179,7 @@ public class ConfigurarGenero extends FramePrincipal {
         if ((alterarButton.isVisible()) || (removerButton.isVisible()) || (generosComboBox.isVisible())) {
             alterarButton.setVisible(false);
             removerButton.setVisible(false);
-            generosComboBox.setVisible(false);;
+            generosComboBox.setVisible(false);
             selecionarLabel.setVisible(false);
         }
         
@@ -226,10 +223,9 @@ public class ConfigurarGenero extends FramePrincipal {
 
     private void alterarCadGeneroActionPerformed(ActionEvent evt) {
         // Limpar panel
-        if ((cadastrarButton.isVisible()) || (removerButton.isVisible()) || (generosComboBox.isVisible())) {
+        if ((cadastrarButton.isVisible()) || (removerButton.isVisible())) {
             cadastrarButton.setVisible(false);
             removerButton.setVisible(false);
-            generosComboBox.setVisible(false);;
         }
 
         if (!alterarButton.isVisible()) {
@@ -242,30 +238,35 @@ public class ConfigurarGenero extends FramePrincipal {
             generoTextField.setVisible(true);
             alterarButton.setVisible(true);
         } else {
+            
             Genero genero = (Genero) generosComboBox.getSelectedItem();
             String novoNomeGenero = generoTextField.getText();
-            genero.setNomeGenero(novoNomeGenero);
-            try {
-                if (new GeneroDAO().alterar(genero)) {
-                    limparPanel(evt);
-                    JOptionPane.showMessageDialog(null, "Gênero alterado com sucesso.", "Bem sucedido", 1);    
-                } else {
-                    JOptionPane.showMessageDialog(null, "Gênero não alterado.", "Mau sucedido", 0);    
-                }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Problemas técnicos. Tente novamente mais tarde.", "Problemas de conexão", 0);
-                e.printStackTrace();
-            }    
+            if ((novoNomeGenero.isEmpty()) || (novoNomeGenero.length() > 50 )) {
+                JOptionPane.showMessageDialog(null, "Campo 'Nome Genero' incorreto!", "Campo Incorreto", 0);
+            } else {
+                genero.setNomeGenero(novoNomeGenero);
+                try {
+                    if (new GeneroDAO().alterar(genero)) {
+                        limparPanel(evt);
+                        JOptionPane.showMessageDialog(null, "Gênero alterado com sucesso.", "Bem sucedido", 1);    
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Gênero não alterado.", "Mal sucedido", 0);    
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Problemas técnicos. Tente novamente mais tarde.", "Problemas de conexão", 0);
+                    e.printStackTrace();
+                }    
+            }
         }
-
     }
 
     private void excluirGeneroActionPerformed(ActionEvent evt) {
         // Limpar panel
-        if ((cadastrarButton.isVisible()) || (alterarButton.isVisible()) || (generosComboBox.isVisible())) {
+        if ((cadastrarButton.isVisible()) || (alterarButton.isVisible())) {
             cadastrarButton.setVisible(false);
             alterarButton.setVisible(false);
-            generosComboBox.setVisible(false);;
+            generoLabel.setVisible(false);
+            generoTextField.setVisible(false);
         }
 
         if (!removerButton.isVisible()) {
@@ -282,7 +283,7 @@ public class ConfigurarGenero extends FramePrincipal {
                     limparPanel(evt);
                     JOptionPane.showMessageDialog(null, "Gênero excluído com sucesso.", "Bem sucedido", 1);    
                 } else {
-                    JOptionPane.showMessageDialog(null, "Gênero não excluído.", "Mau sucedido", 0);    
+                    JOptionPane.showMessageDialog(null, "Gênero não excluído.", "Mal sucedido", 0);    
                 }
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Problemas técnicos. Tente novamente mais tarde.", "Problemas de conexão", 0);
