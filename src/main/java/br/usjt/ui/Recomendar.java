@@ -6,15 +6,14 @@ import javax.swing.*;
 
 import br.usjt.dao.AvaliacaoDAO;
 import br.usjt.dao.MusicaDAO;
-import br.usjt.dao.MusicaGeneroDAO;
 import br.usjt.dao.UserGeneroDAO;
 
-import br.usjt.model.User;
-import br.usjt.model.Genero;
-import br.usjt.model.Musica;
+import br.usjt.model.*;
 
 public class Recomendar extends FramePrincipal {
 
+    private static final long serialVersionUID = -6121388711140290739L;
+    
     private JTable recomendacoesTable;
     private JLabel recomendacoesLabel;
     private JButton voltarButton;
@@ -28,12 +27,11 @@ public class Recomendar extends FramePrincipal {
         Font fonteLabels = new Font("sansserif", Font.BOLD, 13);
         Color branco = Color.WHITE;
 
-        String[] colunas = {"Música", "Artista", "Nota"};
-
         recomendacoesLabel = criarJLabel("Essas são suas recomendações", fonteLabels, branco);
 
-        recomendacoesTable = new JTable();
+        recomendacoesTable = criarTabela(user);
         JScrollPane barraRolagem = new JScrollPane(recomendacoesTable);
+        recomendacoesTable.setEnabled(false);
         
         voltarButton = criarJButton("VOLTAR");
         inicioButton.setText("LOG OUT");
@@ -52,7 +50,7 @@ public class Recomendar extends FramePrincipal {
         layout.setHorizontalGroup(
             layout.createParallelGroup(GroupLayout.Alignment.CENTER)
             .addComponent(recomendacoesLabel)
-            .addComponent(barraRolagem)
+            .addComponent(barraRolagem, GroupLayout.PREFERRED_SIZE, 400, GroupLayout.PREFERRED_SIZE)
             .addGroup(GroupLayout.Alignment.CENTER, 
                 layout.createSequentialGroup()
                 .addComponent(darkModeButton, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
@@ -65,7 +63,7 @@ public class Recomendar extends FramePrincipal {
         layout.setVerticalGroup(
             layout.createSequentialGroup()
             .addComponent(recomendacoesLabel)
-            .addComponent(barraRolagem)
+            .addComponent(barraRolagem, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
             .addGap(10)
             .addGroup(
                 layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
@@ -75,23 +73,41 @@ public class Recomendar extends FramePrincipal {
                 )
             .addComponent(exitButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
         );
-
         pack();
     }
 
-    private void voltarButtonActionPerformed(ActionEvent evt, User adm) {
-        new UsuarioAdm(adm).setVisible(true);
+    private void voltarButtonActionPerformed(ActionEvent evt, User user) {
+        new UsuarioComum(user).setVisible(true);
         this.dispose();
+    }
+
+    private JTable criarTabela(User user) {
+        String[] colunas = {"Música", "Artista", "Nota"};
+        Musica[] musicas = buscarRecomendacoes(user);
+
+        Object[][] data = new Object[musicas.length][colunas.length];
+        for (int i=0; i < musicas.length; i++) {
+            data[i][0] = musicas[i].getNomeMusica();
+            data[i][1] = musicas[i].getNomeArtista();
+            data[i][2] = musicas[i].getPosto();
+        }
+        return new JTable(data, colunas);
     }
 
     private Musica[] buscarRecomendacoes(User user) {
         try {
-            UserGeneroDAO userGeneroDao = new UserGeneroDAO();
-            Genero[] generosUser = userGeneroDao.selectGeneros(user.getUserID());
-            Musica[] musicas = new MusicaDAO().obterMusicasTodosGeneros(generosUser);
+            Genero[] generosUser = new UserGeneroDAO().selectGeneros(user.getUserID());
+            Avaliacao[] avaliacoes = new AvaliacaoDAO().selectAvaliacoes(user);
+            Musica[] musicasAvaliadas = new Musica[avaliacoes.length];
+            for (int i = 0; i < avaliacoes.length; i++) { 
+                musicasAvaliadas[i] = avaliacoes[i].getMusica();
+            }
+
+            Musica[] musicas = new MusicaDAO().obterMusicasGeneros(generosUser, musicasAvaliadas);
             return musicas;
+
         } catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Erro ao buscar gêneros, tente novamente mais tarde.", "Gêneros Indisponíveis", 0);
+			JOptionPane.showMessageDialog(null, "Erro ao buscar músicas, tente novamente mais tarde.", "Músicas Indisponíveis", 0);
             e.printStackTrace();
             Musica[] musicas = {};
             return musicas;

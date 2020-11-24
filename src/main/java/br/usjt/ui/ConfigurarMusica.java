@@ -14,6 +14,8 @@ import br.usjt.dao.MusicaGeneroDAO;
 
 public class ConfigurarMusica extends FramePrincipal {
 
+    private static final long serialVersionUID = -4893308254001876751L;
+    
     private JComboBox<String> oQueFazerComboBox;
     private JComboBox<Musica> musicasComboBox;
     private JList<Genero> generosList;
@@ -328,6 +330,7 @@ public class ConfigurarMusica extends FramePrincipal {
             artistaTextField.setVisible(true);         
             alterarButton.setVisible(true);
 
+            //TODO: quando voltar no alterar, já mostrar os generos associados
         // } else if (!associarGeneros.isVisible()) {
 
         //     selecionarGeneroLabel.setVisible(true);

@@ -37,10 +37,10 @@ public class UsuarioComum extends Usuario {
             case 0: limparPanel(evt); break;
             case 1: new GenerosFavoritos(user).setVisible(true); this.dispose(); break;
             case 2: new AvaliarMusica(user).setVisible(true); this.dispose(); break; // Avaliar, Alterar e ou Excluir 
-            // case 3: RecomendarActionPerformed(evt); break;
+            case 3: new Recomendar(user).setVisible(true); this.dispose(); break;
             case 4: alterSenhaActionPerformed(evt, user.getUserID()); break;
             case 5: excludeAccountActionPerformed(evt, user.getUserID()); break;
-        }
+        }   
     }
 
     public static void main(String[] args) {

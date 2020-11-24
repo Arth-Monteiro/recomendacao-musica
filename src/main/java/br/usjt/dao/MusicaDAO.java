@@ -66,6 +66,27 @@ public class MusicaDAO {
         }
     }
 
+    public Musica selectMusica(int musicaID) throws Exception {
+        String query = "SELECT * FROM musica WHERE id = ?";
+        try (Connection conn = ConnectionFactory.obterConexao(); 
+                PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, musicaID);
+
+            Musica musica = new Musica();
+            try (ResultSet res = stmt.executeQuery()) {
+                while (res.next()) {
+                    String nomeMusica = res.getString("nome_musica");
+                    String nomeArtista = res.getString("nome_artista");
+                    float posto = res.getFloat("posto");
+                    musica = new Musica(musicaID, nomeMusica, nomeArtista, posto);
+                    // return musica;
+                }
+                return musica;
+            }
+        }
+    }
+
     public Musica[] obterMusicas() throws Exception {
         String query = "SELECT * FROM musica ORDER BY nome_musica";
         
@@ -158,17 +179,9 @@ public class MusicaDAO {
         }
     }
 
-    public Musica[] obterMusicasTodosGeneros(Genero[] generos) throws Exception {
-        String query = "SELECT musica.id as id, musica.nome_musica as nome_musica,"
-                        + " musica.nome_artista as nome_artista, musica.posto as posto"
-                        + " FROM musica"
-                        + " INNER JOIN musicaGenero"
-                        + " ON musica.id = musicaGenero.musica_id"
-                        + " WHERE musicaGenero.genero_id IN ()"
-                        + " GROUP BY musica.id"
-                        + " ORDER BY musica.nome_musica";
-
-        String listaGeneros = "";
+    public Musica[] obterMusicasGeneros(Genero[] generos, Musica[] musicasAva) throws Exception {
+        
+        String listaGeneros = "";            
         for (int i = 0; i < generos.length; i++) {
             if (i + 1 == generos.length) {
                 listaGeneros += generos[i].getGeneroID();
@@ -177,11 +190,28 @@ public class MusicaDAO {
             }
         }
 
+        String listaMusicas = "";
+        for (int i = 0; i < musicasAva.length; i++) {
+            if (i + 1 == musicasAva.length) {
+                listaMusicas += musicasAva[i].getMusicaID();
+            } else {
+                listaMusicas += musicasAva[i].getMusicaID() + ",";
+            }
+        }
+
+        String query = "SELECT musica.id as id, musica.nome_musica as nome_musica,"
+                        + " musica.nome_artista as nome_artista, musica.posto as posto"
+                        + " FROM musica"
+                        + " INNER JOIN musicaGenero"
+                        + " ON musica.id = musicaGenero.musica_id"
+                        + " WHERE musicaGenero.genero_id IN (" + listaGeneros + ")"
+                        + " AND musicaGenero.musica_id NOT IN (" + listaMusicas + ")"
+                        + " GROUP BY musica.id"
+                        + " ORDER BY musica.posto DESC";
+
         try (Connection conn = ConnectionFactory.obterConexao(); 
                 PreparedStatement stmt = conn.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
 
-            stmt.setString(1, listaGeneros);
-        
             try (ResultSet res = stmt.executeQuery()) {
                 int totalDeMusicas = res.last() ? res.getRow() : 0;
                 Musica[] musicas = new Musica[totalDeMusicas];

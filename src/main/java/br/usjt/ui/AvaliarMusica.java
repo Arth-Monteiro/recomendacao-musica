@@ -22,8 +22,8 @@ public class AvaliarMusica extends FramePrincipal {
                         notaQuatroCheckBox, notaCincoCheckBox;
     private JLabel darNotaLabel, musicasLabel, generosLabel, alterarExlcuirLabel;
     private JButton avaliarButton, alterarButton, removerButton, voltarButton;
-
-
+//TODO: mostrar avaliacoes
+//TODO: Nao permitir usuario avaliar musicas ja avaliadas
     public AvaliarMusica(User user) {
         initTelaAvaliacao(user);
         this.setLocationRelativeTo(container);
@@ -207,6 +207,11 @@ public class AvaliarMusica extends FramePrincipal {
         musicasLabel.setVisible(false);
         darNotaLabel.setVisible(false);
         alterarExlcuirLabel.setVisible(false);
+        notaUmCheckBox.setSelected(false);
+        notaDoisCheckBox.setSelected(false);
+        notaTresCheckBox.setSelected(false);
+        notaQuatroCheckBox.setSelected(false);
+        notaCincoCheckBox.setSelected(false);
         notaUmCheckBox.setVisible(false);
         notaDoisCheckBox.setVisible(false);
         notaTresCheckBox.setVisible(false);
@@ -251,6 +256,7 @@ public class AvaliarMusica extends FramePrincipal {
         switch (opcao) {
             case 0: limparPanel(evt); break;
             case 1: adicionarAvaliacaoActionPerformed(evt, user); break;
+            //TODO: criar case 2 e case 3
         //     case 2: alterarAvaliacaoActionPerformed(evt, user); break;
         //     case 3: excluirAvaliacaoActionPerformed(evt, user); break;
         }
