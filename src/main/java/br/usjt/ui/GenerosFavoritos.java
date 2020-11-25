@@ -32,13 +32,9 @@ public class GenerosFavoritos extends FramePrincipal {
         Font fonteLabels = new Font("sansserif", Font.BOLD, 13);
         Color branco = Color.WHITE;
 
-        String[] oQueFazer = {"Escolha uma opção...",
-                                "Adicionar Gêneros Favoritos",
-                                "Visualizar Gêneros Favoritos",
-                                "Excluir Gêneros Favoritos"};
-
-        oQueFazerComboBox = new JComboBox<String>(oQueFazer);
+        oQueFazerComboBox = new JComboBox<String>();
         generosFavoritosComboBox = new JComboBox<Genero>();
+        comboBoxoQueFazer();
 
         adicionarGenerosLabel = criarJLabel("", fonteLabels, branco);
         generosList = new JList<Genero>(buscarGenerosNaoFavoritos(user));
@@ -134,6 +130,16 @@ public class GenerosFavoritos extends FramePrincipal {
 
         pack();
     }
+    
+    private void comboBoxoQueFazer() {
+        
+        String[] oQueFazer = {"Escolha uma opção...",
+                                "Adicionar Gêneros Favoritos",
+                                "Visualizar Gêneros Favoritos",
+                                "Excluir Gêneros Favoritos"};
+
+        oQueFazerComboBox.setModel(new DefaultComboBoxModel<>(oQueFazer));
+    }
 
     private void limparPanel(ActionEvent evt) {
         generosFavoritosComboBox.setVisible(false);
@@ -189,7 +195,7 @@ public class GenerosFavoritos extends FramePrincipal {
         switch (opcao) {
             case 0: limparPanel(evt); break;
             case 1: adicionarGenerosActionPerformed(evt, user); break;
-            case 2: buscarGenerosFavoritos(user); visualizarGenerosFavActionPerformed(evt) ; break;
+            case 2: buscarGenerosFavoritos(user); visualizarGenerosFavActionPerformed(evt); break;
             case 3: buscarGenerosFavoritos(user); excluirGenerosActionPerformed(evt); break;
         }
     }
@@ -214,7 +220,8 @@ public class GenerosFavoritos extends FramePrincipal {
                 for (int i = 0; i < generos.size(); i++) {
                     new UserGeneroDAO().inserirGenero(user.getUserID(), generos.get(i).getGeneroID());
                 }
-                limparPanel(evt);   
+                limparPanel(evt);  
+                comboBoxoQueFazer(); 
                 JOptionPane.showMessageDialog(null, "Gêneros cadastrados com sucesso", "Bem sucedido", 1);    
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Problemas técnicos. Tente novamente mais tarde.", "Problemas de conexão", 0);
@@ -257,6 +264,7 @@ public class GenerosFavoritos extends FramePrincipal {
             try {
                 if (new UserGeneroDAO().excluirGenero(genero.getGeneroID())) {
                     limparPanel(evt);
+                    comboBoxoQueFazer();
                     JOptionPane.showMessageDialog(null, "Gênero excluído com sucesso.", "Bem sucedido", 1);    
                 } else {
                     JOptionPane.showMessageDialog(null, "Gênero não excluído.", "Mal sucedido", 0); 
@@ -291,7 +299,6 @@ public class GenerosFavoritos extends FramePrincipal {
 			java.util.logging.Logger.getLogger(GenerosFavoritos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		}
 
-		/* Create and display the form */
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
                 User user = new User("Teste", "testuser", "12345678", "R");

@@ -4,9 +4,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-import br.usjt.model.User;
-import br.usjt.model.Musica;
-import br.usjt.model.Genero;
+import br.usjt.model.*;
+
 import br.usjt.dao.AvaliacaoDAO;
 import br.usjt.dao.MusicaDAO;
 import br.usjt.dao.UserGeneroDAO;
@@ -18,12 +17,12 @@ public class AvaliarMusica extends FramePrincipal {
     private JComboBox<String> oQueFazerComboBox;
     private JComboBox<Musica> musicasComboBox;
     private JComboBox<Genero> generosFavComboBox;
+    private JComboBox<Avaliacao> avaliacoesComboBox;
     private JCheckBox notaUmCheckBox, notaDoisCheckBox, notaTresCheckBox,
                         notaQuatroCheckBox, notaCincoCheckBox;
-    private JLabel darNotaLabel, musicasLabel, generosLabel, alterarExlcuirLabel;
+    private JLabel darNotaLabel, musicasLabel, generosLabel, alterarExcluirLabel;
     private JButton avaliarButton, alterarButton, removerButton, voltarButton;
-//TODO: mostrar avaliacoes
-//TODO: Nao permitir usuario avaliar musicas ja avaliadas
+
     public AvaliarMusica(User user) {
         initTelaAvaliacao(user);
         this.setLocationRelativeTo(container);
@@ -33,25 +32,24 @@ public class AvaliarMusica extends FramePrincipal {
         Font fonteLabels = new Font("sansserif", Font.BOLD, 13);
         Color branco = Color.WHITE;
 
-        String[] oQueFazer = {"Escolha uma opção...",
-                                "Avaliar Música",
-                                "Alterar Avaliação",
-                                "Excluir Avaliação"};
-
-        oQueFazerComboBox = new JComboBox<String>(oQueFazer);
+        oQueFazerComboBox = new JComboBox<String>();
+        oQueFazerComboBox = new JComboBox<String>();
         musicasComboBox = new JComboBox<Musica>();
         generosFavComboBox = new JComboBox<Genero>();
+        avaliacoesComboBox = new JComboBox<Avaliacao>();
+
+        comboBoxoQueFazer();
 
         musicasLabel = criarJLabel("", fonteLabels, branco);
         generosLabel = criarJLabel("", fonteLabels, branco);
         darNotaLabel = criarJLabel("", fonteLabels, branco);
-        alterarExlcuirLabel = criarJLabel("", fonteLabels, branco);
+        alterarExcluirLabel = criarJLabel("", fonteLabels, branco);
 
-        notaUmCheckBox = new JCheckBox("1");
-        notaDoisCheckBox = new JCheckBox("2");
-        notaTresCheckBox = new JCheckBox("3");
-        notaQuatroCheckBox = new JCheckBox("4");
-        notaCincoCheckBox = new JCheckBox("5");
+        notaUmCheckBox = criarJCheckBox("1", branco);
+        notaDoisCheckBox = criarJCheckBox("2", branco);
+        notaTresCheckBox = criarJCheckBox("3", branco);
+        notaQuatroCheckBox = criarJCheckBox("4", branco);
+        notaCincoCheckBox = criarJCheckBox("5", branco);
 
         avaliarButton = criarJButton("AVALIAR");
         alterarButton = criarJButton("ALTERAR");
@@ -62,8 +60,8 @@ public class AvaliarMusica extends FramePrincipal {
         oQueFazerComboBox.addActionListener(evt -> verificarOQueFazerActionPerformed(evt, user));
         generosFavComboBox.addActionListener(evt -> verificarOQueFazerActionPerformed(evt, user));
         avaliarButton.addActionListener(evt -> adicionarAvaliacaoActionPerformed(evt, user));
-        // alterarButton.addActionListener(evt -> alterarAvaliacaoActionPerformed(evt, user));
-        // removerButton.addActionListener(evt -> excluirAvaliacaoActionPerformed(evt, user));
+        alterarButton.addActionListener(evt -> alterarAvaliacaoActionPerformed(evt, user));
+        removerButton.addActionListener(evt -> excluirAvaliacaoActionPerformed(evt, user));
         voltarButton.addActionListener(evt -> voltarButtonActionPerformed(evt, user));
         notaUmCheckBox.addActionListener(evt -> verificarMarcacaoActionPerformed(evt));
         notaDoisCheckBox.addActionListener(evt -> verificarMarcacaoActionPerformed(evt));
@@ -74,10 +72,11 @@ public class AvaliarMusica extends FramePrincipal {
         panel.add(oQueFazerComboBox);
         panel.add(generosFavComboBox);
         panel.add(musicasComboBox);
+        panel.add(avaliacoesComboBox);
         panel.add(generosLabel);
         panel.add(musicasLabel);
         panel.add(darNotaLabel);
-        panel.add(alterarExlcuirLabel);
+        panel.add(alterarExcluirLabel);
         panel.add(notaUmCheckBox);
         panel.add(notaDoisCheckBox);
         panel.add(notaTresCheckBox);
@@ -102,46 +101,55 @@ public class AvaliarMusica extends FramePrincipal {
             .addGroup(
                 layout.createSequentialGroup()
                 .addComponent(oQueFazerComboBox, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
-            )
+            ) 
+            .addGap(10)
             .addGroup(
                 layout.createSequentialGroup()    
                 .addGroup(
                     layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(generosLabel, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(alterarExcluirLabel, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
                 )
                 .addGroup(
                     layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                    .addComponent(generosFavComboBox, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(avaliacoesComboBox, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE)
                 )
             )      
             .addGroup(
                 layout.createSequentialGroup()    
                 .addGroup(
                     layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(musicasLabel, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(generosLabel, GroupLayout.PREFERRED_SIZE, 230, GroupLayout.PREFERRED_SIZE)
                 )
                 .addGroup(
                     layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                    .addComponent(musicasComboBox, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(generosFavComboBox, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)
+                )
+            )      
+            .addGroup(
+                layout.createSequentialGroup()    
+                .addGroup(
+                    layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(musicasLabel, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
+                )
+                .addGroup(
+                    layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                    .addComponent(musicasComboBox, GroupLayout.PREFERRED_SIZE, 270, GroupLayout.PREFERRED_SIZE)
                 )
             )      
             .addGroup(
                 layout.createSequentialGroup()
-                .addComponent(darNotaLabel)   
+                .addComponent(darNotaLabel, GroupLayout.PREFERRED_SIZE, 225, GroupLayout.PREFERRED_SIZE)   
+                .addComponent(notaUmCheckBox, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)   
+                .addComponent(notaDoisCheckBox, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)   
+                .addComponent(notaTresCheckBox, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)   
+                .addComponent(notaQuatroCheckBox, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)   
+                .addComponent(notaCincoCheckBox, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)   
             )
             .addGroup(
                 layout.createSequentialGroup()
-                .addComponent(notaUmCheckBox)   
-                .addComponent(notaDoisCheckBox)   
-                .addComponent(notaTresCheckBox)   
-                .addComponent(notaQuatroCheckBox)   
-                .addComponent(notaCincoCheckBox)   
-            )
-            .addGroup(
-                layout.createSequentialGroup()
-                .addComponent(avaliarButton)   
-                .addComponent(alterarButton)   
-                .addComponent(removerButton)   
+                .addComponent(avaliarButton, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)   
+                .addComponent(alterarButton, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)   
+                .addComponent(removerButton, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)   
             )
             .addGroup(GroupLayout.Alignment.CENTER, 
                 layout.createSequentialGroup()
@@ -160,6 +168,11 @@ public class AvaliarMusica extends FramePrincipal {
             )
             .addGroup(
                 layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(alterarExcluirLabel)
+                .addComponent(avaliacoesComboBox)
+            )
+            .addGroup(
+                layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(generosLabel)
                 .addComponent(generosFavComboBox)
             )
@@ -171,9 +184,6 @@ public class AvaliarMusica extends FramePrincipal {
             .addGroup(
                 layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(darNotaLabel)   
-            )
-            .addGroup(
-                layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(notaUmCheckBox)   
                 .addComponent(notaDoisCheckBox)   
                 .addComponent(notaTresCheckBox)   
@@ -183,9 +193,9 @@ public class AvaliarMusica extends FramePrincipal {
             .addGap(10)
             .addGroup(
                 layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                .addComponent(avaliarButton)   
-                .addComponent(alterarButton)   
-                .addComponent(removerButton)   
+                .addComponent(avaliarButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)  
+                .addComponent(alterarButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)  
+                .addComponent(removerButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)  
             )
             .addGap(15)
                 .addGroup(
@@ -200,13 +210,29 @@ public class AvaliarMusica extends FramePrincipal {
         pack();
     }
 
+    private void comboBoxoQueFazer() {
+
+        String[] oQueFazer = {"Escolha uma opção...",
+                                "Avaliar Música",
+                                "Visualizar Avaliações",
+                                "Alterar Avaliação",
+                                "Excluir Avaliação"};
+
+        oQueFazerComboBox.setModel(new DefaultComboBoxModel<>(oQueFazer));
+    }
+
     private void limparPanel(ActionEvent evt) {
         musicasComboBox.setVisible(false);
+        avaliacoesComboBox.setVisible(false);
         generosFavComboBox.setVisible(false);
         generosLabel.setVisible(false);
+        generosLabel.setText("");
         musicasLabel.setVisible(false);
+        musicasLabel.setText("");
         darNotaLabel.setVisible(false);
-        alterarExlcuirLabel.setVisible(false);
+        darNotaLabel.setText("");
+        alterarExcluirLabel.setVisible(false);
+        alterarExcluirLabel.setText("");
         notaUmCheckBox.setSelected(false);
         notaDoisCheckBox.setSelected(false);
         notaTresCheckBox.setSelected(false);
@@ -220,6 +246,31 @@ public class AvaliarMusica extends FramePrincipal {
         avaliarButton.setVisible(false);
         alterarButton.setVisible(false);
         removerButton.setVisible(false);
+    }
+
+    private void buscarAvaliacoes(User user) {
+        try {
+            Avaliacao[] avaliacoes = new AvaliacaoDAO().selectAvaliacoes(user);
+            avaliacoesComboBox.setModel(new DefaultComboBoxModel<>(avaliacoes));
+        } catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Erro ao buscar gêneros, tente novamente mais tarde.", "Gêneros Indisponíveis", 0);
+            e.printStackTrace();
+        }
+    }
+    
+    private void definirCheckSelected(int nota) {
+        if (nota == 1) {
+            notaUmCheckBox.setSelected(true);
+        } else if (nota == 2) {
+            notaDoisCheckBox.setSelected(true);
+        } else if (nota == 3) {
+            notaTresCheckBox.setSelected(true);
+        } else if (nota == 4) {
+            notaQuatroCheckBox.setSelected(true);
+        } else if (nota == 5) {
+            notaCincoCheckBox.setSelected(true);
+        }
+        verificarMarcacaoActionPerformed(null);
     }
 
     private Genero[] buscarGenerosFavoritos(User user) {
@@ -238,10 +289,17 @@ public class AvaliarMusica extends FramePrincipal {
 
     private void buscarMusicas(User user) {
         Genero genero = (Genero) generosFavComboBox.getSelectedItem();
-    
+        Genero[] generoEscolhido = new Genero[] {genero};
         try {
             MusicaDAO musicaDao = new MusicaDAO();
-            Musica[] musicas = musicaDao.obterMusicasGeneros(genero.getGeneroID());
+            
+            Avaliacao[] avaliacoes = new AvaliacaoDAO().selectAvaliacoes(user);
+            Musica[] musicasAvaliadas = new Musica[avaliacoes.length];
+            for (int i = 0; i < avaliacoes.length; i++) { 
+                musicasAvaliadas[i] = avaliacoes[i].getMusica();
+            }
+
+            Musica[] musicas = musicaDao.obterMusicasGeneros(generoEscolhido, musicasAvaliadas, false);
             musicasComboBox.setModel(new DefaultComboBoxModel<>(musicas));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao buscar músicas, tente novamente mais tarde.", "Músicas Indisponíveis", 0);
@@ -253,23 +311,31 @@ public class AvaliarMusica extends FramePrincipal {
 
     private void verificarOQueFazerActionPerformed(ActionEvent evt, User user) {
         int opcao = oQueFazerComboBox.getSelectedIndex();
+        // limparPanel(evt);
         switch (opcao) {
             case 0: limparPanel(evt); break;
             case 1: adicionarAvaliacaoActionPerformed(evt, user); break;
-            //TODO: criar case 2 e case 3
-        //     case 2: alterarAvaliacaoActionPerformed(evt, user); break;
-        //     case 3: excluirAvaliacaoActionPerformed(evt, user); break;
+            case 2: visualizarAvaliacoesActionPerformed(evt, user); break;
+            case 3: alterarAvaliacaoActionPerformed(evt, user); break;
+            case 4: excluirAvaliacaoActionPerformed(evt, user); break;
         }
     }
 
     private void adicionarAvaliacaoActionPerformed(ActionEvent evt, User user) {
         // Limpar Panel
-        if ((alterarButton.isVisible()) || (removerButton.isVisible())) {
-            alterarExlcuirLabel.setVisible(false);
+        if ((alterarButton.isVisible()) || (removerButton.isVisible()) || (avaliacoesComboBox.isVisible())) {
+            alterarExcluirLabel.setVisible(false);
             alterarButton.setVisible(false);
             removerButton.setVisible(false);
+            avaliacoesComboBox.setVisible(false);
+            notaUmCheckBox.setSelected(false);
+            notaDoisCheckBox.setSelected(false);
+            notaTresCheckBox.setSelected(false);
+            notaQuatroCheckBox.setSelected(false);
+            notaCincoCheckBox.setSelected(false);
+            alterarExcluirLabel.setVisible(false);
+            avaliacoesComboBox.setVisible(false);
         }
-
         
         generosLabel.setText("Selecione o Gênero: ");
         generosLabel.setVisible(true);
@@ -280,6 +346,7 @@ public class AvaliarMusica extends FramePrincipal {
             musicasLabel.setText("Selecione a Música: ");
             musicasLabel.setVisible(true);
             musicasComboBox.setVisible(true);
+            darNotaLabel.setText("Qual sua nota:");
             darNotaLabel.setVisible(true);
             notaUmCheckBox.setVisible(true);
             notaDoisCheckBox.setVisible(true);
@@ -309,14 +376,141 @@ public class AvaliarMusica extends FramePrincipal {
                 try {
                     if (new AvaliacaoDAO().inserirAvaliacao(user.getUserID(), musica.getMusicaID(), nota)) {
                         limparPanel(evt);
+                        comboBoxoQueFazer();
                         JOptionPane.showMessageDialog(null, "Avaliação atribuída com sucesso.", "Bem sucedido", 1);
                     } else {
                         JOptionPane.showMessageDialog(null, "Avaliação não atribuída.", "Mal sucedido", 0);
                     }
                 } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, "Erro ao buscar músicas, tente novamente mais tarde.", "Músicas Indisponíveis", 0);
+                    JOptionPane.showMessageDialog(null, "Erro ao inserir avaliações, tente novamente mais tarde.", "Avaliações Indisponíveis", 0);
                     e.printStackTrace();
                 }
+            }
+        }
+    }
+
+    private void visualizarAvaliacoesActionPerformed(ActionEvent evt, User user) {
+        // Limpar Panel
+        if ((avaliarButton.isVisible()) || (removerButton.isVisible()) || (alterarButton.isVisible())) {
+            musicasComboBox.setVisible(false);
+            darNotaLabel.setVisible(false);
+            avaliarButton.setVisible(false);
+            removerButton.setVisible(false);
+            generosLabel.setVisible(false);
+            generosFavComboBox.setVisible(false);
+            musicasLabel.setVisible(false);
+            musicasComboBox.setVisible(false);
+            alterarExcluirLabel.setVisible(false);
+            alterarButton.setVisible(false);
+
+        }
+
+        buscarAvaliacoes(user);
+        avaliacoesComboBox.setVisible(true);
+        Avaliacao avaliacao = (Avaliacao) avaliacoesComboBox.getSelectedItem();
+        definirCheckSelected(avaliacao.getNota());
+        notaUmCheckBox.setVisible(true);
+        notaDoisCheckBox.setVisible(true);
+        notaTresCheckBox.setVisible(true);
+        notaQuatroCheckBox.setVisible(true);
+        notaCincoCheckBox.setVisible(true); 
+    }
+
+    private void alterarAvaliacaoActionPerformed(ActionEvent evt, User user) {
+        // Limpar Panel
+        if ((avaliarButton.isVisible()) || (removerButton.isVisible())) {
+            musicasComboBox.setVisible(false);
+            darNotaLabel.setVisible(false);
+            avaliarButton.setVisible(false);
+            removerButton.setVisible(false);
+            generosLabel.setVisible(false);
+            generosFavComboBox.setVisible(false);
+            musicasLabel.setVisible(false);
+            musicasComboBox.setVisible(false);
+        }
+
+        if (!alterarButton.isVisible()) {
+            buscarAvaliacoes(user);
+            avaliacoesComboBox.setVisible(true);
+            alterarExcluirLabel.setText("Selecione a Avaliação: ");
+            alterarExcluirLabel.setVisible(true);
+            Avaliacao avaliacao = (Avaliacao) avaliacoesComboBox.getSelectedItem();
+            definirCheckSelected(avaliacao.getNota());
+            avaliacoesComboBox.setVisible(true);
+            avaliacoesComboBox.setEnabled(true);
+            notaUmCheckBox.setVisible(true);
+            notaDoisCheckBox.setVisible(true);
+            notaTresCheckBox.setVisible(true);
+            notaQuatroCheckBox.setVisible(true);
+            notaCincoCheckBox.setVisible(true);
+            alterarButton.setVisible(true);
+        } else {
+            Avaliacao avaliacao = (Avaliacao) avaliacoesComboBox.getSelectedItem();
+            int nota;
+            if (notaUmCheckBox.isSelected()) {
+                nota = 1;
+            } else if (notaDoisCheckBox.isSelected()) {
+                nota = 2;
+            } else if (notaTresCheckBox.isSelected()) {
+                nota = 3;
+            } else if (notaQuatroCheckBox.isSelected()) {
+                nota = 4;
+            } else if (notaCincoCheckBox.isSelected()) {
+                nota = 5;
+            } else {
+                nota = 0;
+            }
+            if (nota != 0) {
+                try {
+                    if (new AvaliacaoDAO().alterarAvaliacao(avaliacao.getAvaliacaoID(), nota)) {
+                        limparPanel(evt);
+                        comboBoxoQueFazer();
+                        JOptionPane.showMessageDialog(null, "Avaliação alterada com sucesso.", "Bem sucedido", 1);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Avaliação não alterada.", "Mal sucedido", 0);
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Erro ao alterar avaliações, tente novamente mais tarde.", "Avaliações Indisponíveis", 0);
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private void excluirAvaliacaoActionPerformed(ActionEvent evt, User user) {
+        // Limpar Panel
+        if ((alterarButton.isVisible()) || (avaliarButton.isVisible()) || (avaliacoesComboBox.isVisible())) {
+            musicasComboBox.setVisible(false);
+            darNotaLabel.setVisible(false);
+            avaliarButton.setVisible(false);
+            generosLabel.setVisible(false);
+            generosFavComboBox.setVisible(false);
+            musicasLabel.setVisible(false);
+            musicasComboBox.setVisible(false);
+            notaUmCheckBox.setVisible(false);
+            notaDoisCheckBox.setVisible(false);
+            notaTresCheckBox.setVisible(false);
+            notaQuatroCheckBox.setVisible(false);
+            notaCincoCheckBox.setVisible(false); 
+        }
+        
+        if (!removerButton.isVisible()) {
+            buscarAvaliacoes(user);
+            avaliacoesComboBox.setVisible(true);
+            removerButton.setVisible(true);
+        } else {
+            try {
+                Avaliacao avaliacao = (Avaliacao) avaliacoesComboBox.getSelectedItem();
+                if (new AvaliacaoDAO().removerAvaliacao(avaliacao.getAvaliacaoID())) {
+                    limparPanel(evt);
+                    comboBoxoQueFazer();
+                    JOptionPane.showMessageDialog(null, "Avaliação removida com sucesso.", "Bem sucedido", 1);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Avaliação não removida.", "Mal sucedido", 0);
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Erro ao deletar avaliações, tente novamente mais tarde.", "Avaliações Indisponíveis", 0);
+                e.printStackTrace();
             }
         }
     }

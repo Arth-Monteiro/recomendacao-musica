@@ -8,7 +8,7 @@ import br.usjt.model.User;
 import br.usjt.dao.UserDAO;
 
 public class Usuario extends FramePrincipal {
-// Atualizar cadastro
+ 
     private static final long serialVersionUID = -7042799536988979356L;
     
     protected JLabel boasVindasLabel, oQueFazerLabel;

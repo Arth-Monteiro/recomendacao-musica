@@ -32,7 +32,7 @@ public class Recomendar extends FramePrincipal {
         recomendacoesTable = criarTabela(user);
         JScrollPane barraRolagem = new JScrollPane(recomendacoesTable);
         recomendacoesTable.setEnabled(false);
-        
+
         voltarButton = criarJButton("VOLTAR");
         inicioButton.setText("LOG OUT");
 
@@ -103,7 +103,7 @@ public class Recomendar extends FramePrincipal {
                 musicasAvaliadas[i] = avaliacoes[i].getMusica();
             }
 
-            Musica[] musicas = new MusicaDAO().obterMusicasGeneros(generosUser, musicasAvaliadas);
+            Musica[] musicas = new MusicaDAO().obterMusicasGeneros(generosUser, musicasAvaliadas, true);
             return musicas;
 
         } catch (Exception e) {
@@ -132,7 +132,6 @@ public class Recomendar extends FramePrincipal {
 			java.util.logging.Logger.getLogger(Recomendar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		}
 
-		/* Create and display the form */
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
                 User user = new User("Teste", "testuser", "12345678", "R");

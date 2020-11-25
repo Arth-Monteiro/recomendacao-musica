@@ -179,7 +179,7 @@ public class MusicaDAO {
         }
     }
 
-    public Musica[] obterMusicasGeneros(Genero[] generos, Musica[] musicasAva) throws Exception {
+    public Musica[] obterMusicasGeneros(Genero[] generos, Musica[] musicasAva, boolean nullFilter) throws Exception {
         
         String listaGeneros = "";            
         for (int i = 0; i < generos.length; i++) {
@@ -198,7 +198,7 @@ public class MusicaDAO {
                 listaMusicas += musicasAva[i].getMusicaID() + ",";
             }
         }
-
+        String filter = (nullFilter) ? " AND musica.posto IS NOT NULL": "";
         String query = "SELECT musica.id as id, musica.nome_musica as nome_musica,"
                         + " musica.nome_artista as nome_artista, musica.posto as posto"
                         + " FROM musica"
@@ -206,6 +206,7 @@ public class MusicaDAO {
                         + " ON musica.id = musicaGenero.musica_id"
                         + " WHERE musicaGenero.genero_id IN (" + listaGeneros + ")"
                         + " AND musicaGenero.musica_id NOT IN (" + listaMusicas + ")"
+                        + filter
                         + " GROUP BY musica.id"
                         + " ORDER BY musica.posto DESC";
 

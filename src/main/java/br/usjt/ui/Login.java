@@ -147,12 +147,10 @@ public class Login extends FramePrincipal {
 			java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		}
 
-		/* Create and display the form */
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				new Login().setVisible(true);
 			}
 		});
     }
-
 }

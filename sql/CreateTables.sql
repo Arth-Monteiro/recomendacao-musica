@@ -79,3 +79,22 @@ UPDATE musica AS dest
 	SET dest.posto = src.posto
     WHERE dest.id = src.musica_id;
 END;
+
+DELIMITER $$
+CREATE TRIGGER update_posto_avaliacao
+	AFTER UPDATE
+	ON avaliacoes FOR EACH ROW
+BEGIN
+UPDATE musica AS dest
+    INNER JOIN 
+		(SELECT SUM(nota_avaliacao)/contagem AS posto, avaliacoes.musica_id FROM avaliacoes
+		INNER JOIN (
+			SELECT musica_id, COUNT(musica_id) AS contagem FROM avaliacoes
+			GROUP BY musica_id
+		) A 
+		ON A.musica_id = avaliacoes.musica_id
+		GROUP BY avaliacoes.musica_id
+	) AS src ON src.musica_id = dest.id
+	SET dest.posto = src.posto
+    WHERE dest.id = src.musica_id;
+END;

@@ -34,28 +34,14 @@ public class UsuarioAdm extends Usuario {
         int opcao = oQueFazerComboBox.getSelectedIndex();
         switch (opcao) {
             case 0: limparPanel(evt); break;
-            case 1: cadastrarUsuarioActionPerformed(evt, adm); break;
-            case 2: confGeneroMusActionPerformed(evt, adm); break;
-            case 3: confMusicaActionPerformed(evt, adm); break;
+            case 1: new SignIn(adm).setVisible(true); this.dispose(); break;
+            case 2: new ConfigurarGenero(adm).setVisible(true); this.dispose();
+            case 3: new ConfigurarMusica(adm).setVisible(true); this.dispose(); break;
             case 4: alterSenhaActionPerformed(evt, adm.getUserID()); break;
             case 5: excludeAccountActionPerformed(evt, adm.getUserID()); break;
         }
     }
 
-    private void cadastrarUsuarioActionPerformed(ActionEvent evt, User adm) {
-        new SignIn(adm).setVisible(true);
-        this.dispose();
-    }
-
-    private void confGeneroMusActionPerformed(ActionEvent evt, User adm) {
-        new ConfigurarGenero(adm).setVisible(true);
-        this.dispose();
-    }
-
-    private void confMusicaActionPerformed(ActionEvent evt, User adm) {
-        new ConfigurarMusica(adm).setVisible(true);
-        this.dispose();
-    }
     public static void main(String[] args) {
         try {
 			for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {

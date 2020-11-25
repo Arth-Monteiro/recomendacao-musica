@@ -71,6 +71,11 @@ public class FramePrincipal extends JFrame {
         this.dispose();
     }
 
+    public JCheckBox criarJCheckBox(String text, Color cor) {
+        JCheckBox checkBox = new JCheckBox(text);
+        checkBox.setForeground(cor);
+        return checkBox;
+    }
     public JButton criarJButton(String text) {
         JButton button = new JButton();
         button.setText(text);
@@ -129,7 +134,6 @@ public class FramePrincipal extends JFrame {
 			java.util.logging.Logger.getLogger(FramePrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		}
 
-		/* Create and display the form */
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				new FramePrincipal().setVisible(true);

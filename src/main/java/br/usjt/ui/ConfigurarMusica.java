@@ -33,14 +33,9 @@ public class ConfigurarMusica extends FramePrincipal {
         Font fonteLabels = new Font("sansserif", Font.BOLD, 13);
         Color branco = Color.WHITE;
 
-        String[] oQueFazer = {"Escolha uma opção...", 
-                                "Cadastrar Música",
-                                "Verificar Músicas",
-                                "Alterar Cadastro Música", 
-                                "Excluir Música"};
-
-        oQueFazerComboBox = new JComboBox<String>(oQueFazer);
+        oQueFazerComboBox = new JComboBox<String>();
         musicasComboBox = new JComboBox<Musica>();
+        comboBoxoQueFazer();
 
         cadastrarButton = criarJButton("CADASTRAR");
         alterarButton = criarJButton("ALTERAR");
@@ -198,6 +193,17 @@ public class ConfigurarMusica extends FramePrincipal {
         
     }
 
+    private void comboBoxoQueFazer() {
+        
+        String[] oQueFazer = {"Escolha uma opção...", 
+                                "Cadastrar Música",
+                                "Verificar Músicas",
+                                "Alterar Cadastro Música", 
+                                "Excluir Música"};
+
+        oQueFazerComboBox.setModel(new DefaultComboBoxModel<>(oQueFazer));
+    }
+
     private void limparPanel(ActionEvent evt) {
         musicasComboBox.setVisible(false);
         cadastrarButton.setVisible(false);
@@ -264,7 +270,8 @@ public class ConfigurarMusica extends FramePrincipal {
                         for (int i=0; i< generos.size(); i++) {
                             musicaGeneroDao.inserirMusica(musica.getMusicaID(), generos.get(i).getGeneroID());
                             if (i + 1 == generos.size()) {
-                                limparPanel(evt);   
+                                limparPanel(evt);  
+                                comboBoxoQueFazer(); 
                                 JOptionPane.showMessageDialog(null, "Música cadastrada com sucesso", "Bem sucedido", 1);    
                             }
                         }
@@ -362,6 +369,7 @@ public class ConfigurarMusica extends FramePrincipal {
                 try {
                     if (new MusicaDAO().alterar(musica)) {
                         limparPanel(evt);
+                        comboBoxoQueFazer();
                         JOptionPane.showMessageDialog(null, "Música alterado com sucesso.", "Bem sucedido", 1);    
                     } else {
                         JOptionPane.showMessageDialog(null, "Música não alterado.", "Mal sucedido", 0);    
@@ -399,6 +407,7 @@ public class ConfigurarMusica extends FramePrincipal {
             try {
                 if (new MusicaDAO().excluir(musicaID)) {
                     limparPanel(evt);
+                    comboBoxoQueFazer();
                     JOptionPane.showMessageDialog(null, "Música excluída com sucesso.", "Bem sucedido", 1);    
                 } else {
                     JOptionPane.showMessageDialog(null, "Música não excluído.", "Mal sucedido", 0);    

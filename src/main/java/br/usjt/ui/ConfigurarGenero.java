@@ -28,14 +28,9 @@ public class ConfigurarGenero extends FramePrincipal {
         Font fonteLabels = new Font("sansserif", Font.BOLD, 13);
         Color branco = Color.WHITE;
 
-        String[] oQueFazer = {"Escolha uma opção...", 
-                                "Cadastrar Gênero",
-                                "Verificar Gêneros",
-                                "Alterar Cadastro Gênero", 
-                                "Excluir Gênero"};
-
-        oQueFazerComboBox = new JComboBox<String>(oQueFazer);
+        oQueFazerComboBox = new JComboBox<String>();
         generosComboBox = new JComboBox<Genero>();
+        comboBoxoQueFazer();
 
         cadastrarButton = criarJButton("CADASTRAR");
         alterarButton = criarJButton("ALTERAR");
@@ -142,6 +137,17 @@ public class ConfigurarGenero extends FramePrincipal {
         
     }
 
+    private void comboBoxoQueFazer() {
+        
+        String[] oQueFazer = {"Escolha uma opção...", 
+                                "Cadastrar Gênero",
+                                "Verificar Gêneros",
+                                "Alterar Cadastro Gênero", 
+                                "Excluir Gênero"};
+
+        oQueFazerComboBox.setModel(new DefaultComboBoxModel<>(oQueFazer));
+    }
+
     private void buscarGeneros() {
         try {
 			GeneroDAO generoDao = new GeneroDAO();
@@ -200,6 +206,7 @@ public class ConfigurarGenero extends FramePrincipal {
                     if (!generoDao.verificarGenero(nomeGenero)) {
                         if(generoDao.inserir(nomeGenero)) {
                             limparPanel(evt);
+                            comboBoxoQueFazer();
                             JOptionPane.showMessageDialog(null, "Gênero cadastrado com sucesso", "Bem sucedido", 1);
                         } else {
                             JOptionPane.showMessageDialog(null, "Gênero não cadastrado!", "Mal sucedido", 0);
@@ -248,6 +255,7 @@ public class ConfigurarGenero extends FramePrincipal {
                 try {
                     if (new GeneroDAO().alterar(genero)) {
                         limparPanel(evt);
+                        comboBoxoQueFazer();
                         JOptionPane.showMessageDialog(null, "Gênero alterado com sucesso.", "Bem sucedido", 1);    
                     } else {
                         JOptionPane.showMessageDialog(null, "Gênero não alterado.", "Mal sucedido", 0);    
@@ -281,6 +289,7 @@ public class ConfigurarGenero extends FramePrincipal {
             try {
                 if (new GeneroDAO().excluir(generoID)) {
                     limparPanel(evt);
+                    comboBoxoQueFazer();
                     JOptionPane.showMessageDialog(null, "Gênero excluído com sucesso.", "Bem sucedido", 1);    
                 } else {
                     JOptionPane.showMessageDialog(null, "Gênero não excluído.", "Mal sucedido", 0);    

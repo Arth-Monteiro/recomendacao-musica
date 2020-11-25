@@ -12,6 +12,6 @@ public class Avaliacao {
     private int nota;
 
     public String toString() {
-        return this.musica + ": " + this.nota;
+        return this.musica + ", Nota: " + this.nota;
     }
 }

@@ -214,7 +214,6 @@ public class SignIn extends FramePrincipal {
 			java.util.logging.Logger.getLogger(SignIn.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		}
 
-		/* Create and display the form */
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
                 User user = new User("", "", "", "R");
