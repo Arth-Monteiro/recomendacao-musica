@@ -37,6 +37,7 @@ public class MusicaDAO {
             stmt.execute(); 
             return true; // Genero cadastrado com sucesso
         } catch (Exception e) {
+            e.printStackTrace();
             return false; // Genero nao cadastrado devido algum problema
         }
     }
@@ -123,6 +124,7 @@ public class MusicaDAO {
             stmt.execute(); 
             return true; // Genero alterado com sucesso
         } catch (Exception e) {
+            e.printStackTrace();
             return false; // Genero nao alterado devido algum problema
         }
     }
@@ -138,6 +140,7 @@ public class MusicaDAO {
                 stmt.execute(); 
                 return true; // Genero excluido com sucesso
             } catch (Exception e) {
+                e.printStackTrace();
                 return false; // Genero não excluido devido algum problema
             }
         } else {
@@ -181,23 +184,32 @@ public class MusicaDAO {
 
     public Musica[] obterMusicasGeneros(Genero[] generos, Musica[] musicasAva, boolean nullFilter) throws Exception {
         
-        String listaGeneros = "";            
-        for (int i = 0; i < generos.length; i++) {
-            if (i + 1 == generos.length) {
-                listaGeneros += generos[i].getGeneroID();
-            } else {
-                listaGeneros += generos[i].getGeneroID() + ",";
+        String listaGeneros = "";  
+        if (generos.length != 0) {
+            for (int i = 0; i < generos.length; i++) {
+                if (i + 1 == generos.length) {
+                    listaGeneros += generos[i].getGeneroID();
+                } else {
+                    listaGeneros += generos[i].getGeneroID() + ",";
+                }
             }
+        } else {
+            listaGeneros += 0;
         }
 
         String listaMusicas = "";
-        for (int i = 0; i < musicasAva.length; i++) {
-            if (i + 1 == musicasAva.length) {
-                listaMusicas += musicasAva[i].getMusicaID();
-            } else {
-                listaMusicas += musicasAva[i].getMusicaID() + ",";
+        if (musicasAva.length != 0) {
+            for (int i = 0; i < musicasAva.length; i++) {
+                if (i + 1 == musicasAva.length) {
+                    listaMusicas += musicasAva[i].getMusicaID();
+                } else {
+                    listaMusicas += musicasAva[i].getMusicaID() + ",";
+                }
             }
+        } else {
+            listaMusicas += 0;
         }
+
         String filter = (nullFilter) ? " AND musica.posto IS NOT NULL": "";
         String query = "SELECT musica.id as id, musica.nome_musica as nome_musica,"
                         + " musica.nome_artista as nome_artista, musica.posto as posto"
@@ -209,6 +221,8 @@ public class MusicaDAO {
                         + filter
                         + " GROUP BY musica.id"
                         + " ORDER BY musica.posto DESC";
+
+                        System.out.println(query);
 
         try (Connection conn = ConnectionFactory.obterConexao(); 
                 PreparedStatement stmt = conn.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
@@ -227,8 +241,7 @@ public class MusicaDAO {
                     musicas[contador++] = new Musica(musicaID, nomeMusica, nomeArtista, posto);
                 }
                 return musicas;
-            }
-            
+            }   
         }
     }
 }

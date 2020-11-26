@@ -59,6 +59,7 @@ public class AvaliarMusica extends FramePrincipal {
 
         oQueFazerComboBox.addActionListener(evt -> verificarOQueFazerActionPerformed(evt, user));
         generosFavComboBox.addActionListener(evt -> verificarOQueFazerActionPerformed(evt, user));
+        avaliacoesComboBox.addActionListener(evt -> avaliacaoComboActionPerformed(evt));
         avaliarButton.addActionListener(evt -> adicionarAvaliacaoActionPerformed(evt, user));
         alterarButton.addActionListener(evt -> alterarAvaliacaoActionPerformed(evt, user));
         removerButton.addActionListener(evt -> excluirAvaliacaoActionPerformed(evt, user));
@@ -215,8 +216,8 @@ public class AvaliarMusica extends FramePrincipal {
         String[] oQueFazer = {"Escolha uma opção...",
                                 "Avaliar Música",
                                 "Visualizar Avaliações",
-                                "Alterar Avaliação",
-                                "Excluir Avaliação"};
+                                "Alterar Avaliação"}; //,
+                                // "Excluir Avaliação"};
 
         oQueFazerComboBox.setModel(new DefaultComboBoxModel<>(oQueFazer));
     }
@@ -259,6 +260,7 @@ public class AvaliarMusica extends FramePrincipal {
     }
     
     private void definirCheckSelected(int nota) {
+
         if (nota == 1) {
             notaUmCheckBox.setSelected(true);
         } else if (nota == 2) {
@@ -292,7 +294,7 @@ public class AvaliarMusica extends FramePrincipal {
         Genero[] generoEscolhido = new Genero[] {genero};
         try {
             MusicaDAO musicaDao = new MusicaDAO();
-            
+            System.out.println(user.getUserID());
             Avaliacao[] avaliacoes = new AvaliacaoDAO().selectAvaliacoes(user);
             Musica[] musicasAvaliadas = new Musica[avaliacoes.length];
             for (int i = 0; i < avaliacoes.length; i++) { 
@@ -389,6 +391,33 @@ public class AvaliarMusica extends FramePrincipal {
         }
     }
 
+    private void avaliacaoComboActionPerformed(ActionEvent evt) {
+        
+        notaUmCheckBox.setSelected(false);
+        notaDoisCheckBox.setSelected(false);
+        notaTresCheckBox.setSelected(false);
+        notaQuatroCheckBox.setSelected(false);
+        notaCincoCheckBox.setSelected(false);
+
+        Avaliacao avaliacao = (Avaliacao) avaliacoesComboBox.getSelectedItem();
+        definirCheckSelected(avaliacao.getNota());
+
+        int opcao = oQueFazerComboBox.getSelectedIndex();
+        if (opcao != 3) {
+            notaUmCheckBox.setEnabled(false);
+            notaDoisCheckBox.setEnabled(false);
+            notaTresCheckBox.setEnabled(false);
+            notaQuatroCheckBox.setEnabled(false);
+            notaCincoCheckBox.setEnabled(false);
+        } else {
+            notaUmCheckBox.setEnabled(true);
+            notaDoisCheckBox.setEnabled(true);
+            notaTresCheckBox.setEnabled(true);
+            notaQuatroCheckBox.setEnabled(true);
+            notaCincoCheckBox.setEnabled(true);
+        }
+    }
+
     private void visualizarAvaliacoesActionPerformed(ActionEvent evt, User user) {
         // Limpar Panel
         if ((avaliarButton.isVisible()) || (removerButton.isVisible()) || (alterarButton.isVisible())) {
@@ -404,11 +433,10 @@ public class AvaliarMusica extends FramePrincipal {
             alterarButton.setVisible(false);
 
         }
-
+        
         buscarAvaliacoes(user);
+        avaliacaoComboActionPerformed(evt);
         avaliacoesComboBox.setVisible(true);
-        Avaliacao avaliacao = (Avaliacao) avaliacoesComboBox.getSelectedItem();
-        definirCheckSelected(avaliacao.getNota());
         notaUmCheckBox.setVisible(true);
         notaDoisCheckBox.setVisible(true);
         notaTresCheckBox.setVisible(true);
@@ -428,21 +456,20 @@ public class AvaliarMusica extends FramePrincipal {
             musicasLabel.setVisible(false);
             musicasComboBox.setVisible(false);
         }
-
+        
         if (!alterarButton.isVisible()) {
             buscarAvaliacoes(user);
             avaliacoesComboBox.setVisible(true);
+            avaliacaoComboActionPerformed(evt);
             alterarExcluirLabel.setText("Selecione a Avaliação: ");
             alterarExcluirLabel.setVisible(true);
-            Avaliacao avaliacao = (Avaliacao) avaliacoesComboBox.getSelectedItem();
-            definirCheckSelected(avaliacao.getNota());
             avaliacoesComboBox.setVisible(true);
             avaliacoesComboBox.setEnabled(true);
             notaUmCheckBox.setVisible(true);
             notaDoisCheckBox.setVisible(true);
             notaTresCheckBox.setVisible(true);
             notaQuatroCheckBox.setVisible(true);
-            notaCincoCheckBox.setVisible(true);
+            notaCincoCheckBox.setVisible(true); 
             alterarButton.setVisible(true);
         } else {
             Avaliacao avaliacao = (Avaliacao) avaliacoesComboBox.getSelectedItem();
@@ -492,6 +519,7 @@ public class AvaliarMusica extends FramePrincipal {
             notaTresCheckBox.setVisible(false);
             notaQuatroCheckBox.setVisible(false);
             notaCincoCheckBox.setVisible(false); 
+            alterarButton.setVisible(false);
         }
         
         if (!removerButton.isVisible()) {

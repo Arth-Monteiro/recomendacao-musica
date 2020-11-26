@@ -72,6 +72,7 @@ public class UserDAO {
                 stmt.execute();
                 return true; // Usuario cadastrado com sucesso
             } catch (Exception e) {
+                e.printStackTrace();
                 return false; // Usuario não cadastrado
             }
     }
@@ -106,6 +107,7 @@ public class UserDAO {
             stmt.execute();
             return true; // Senha alterada com sucesso
         } catch (Exception e) {
+            e.printStackTrace();
             return false; // Senha não alterada devido algum problema
         }
     }

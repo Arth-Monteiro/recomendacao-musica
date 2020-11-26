@@ -20,6 +20,7 @@ public class UserGeneroDAO {
             stmt.execute(); 
             return true; // Genero inserida com sucesso
         } catch (Exception e) {
+            e.printStackTrace();
             return false; // Genero não inserida devido algum problema
         }
     }
@@ -34,6 +35,7 @@ public class UserGeneroDAO {
             stmt.execute(); 
             return true; // Genero excluido com sucesso
         } catch (Exception e) {
+            e.printStackTrace();
             return false; // Genero não excluido devido algum problema
         }
     }
@@ -48,6 +50,7 @@ public class UserGeneroDAO {
             stmt.execute(); 
             return true; // Genero excluido com sucesso
         } catch (Exception e) {
+            e.printStackTrace();
             return false; // Genero não excluido devido algum problema
         }
     }

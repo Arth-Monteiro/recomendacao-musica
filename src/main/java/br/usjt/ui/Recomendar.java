@@ -82,16 +82,17 @@ public class Recomendar extends FramePrincipal {
     }
 
     private JTable criarTabela(User user) {
-        String[] colunas = {"Música", "Artista", "Nota"};
-        Musica[] musicas = buscarRecomendacoes(user);
+        String[] colunas = {"Música", "Artista", "Nota"}; // Já tenho minhas colunas prontas
+        Musica[] musicas = buscarRecomendacoes(user); // Busco minhas músicas e retorno em Musica[]
 
-        Object[][] data = new Object[musicas.length][colunas.length];
-        for (int i=0; i < musicas.length; i++) {
+        Object[][] data = new Object[musicas.length][colunas.length]; // Crio um Object bidimensional de tamanho
+                                                                        // linhas = quant de musicas e colunas = 3
+        for (int i=0; i < musicas.length; i++) { // Nesse laço eu seto o meu Object bidimensional
             data[i][0] = musicas[i].getNomeMusica();
             data[i][1] = musicas[i].getNomeArtista();
             data[i][2] = musicas[i].getPosto();
         }
-        return new JTable(data, colunas);
+        return new JTable(data, colunas); // Aqui retorno a tabela já criada
     }
 
     private Musica[] buscarRecomendacoes(User user) {

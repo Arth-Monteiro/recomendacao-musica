@@ -23,6 +23,7 @@ public class AvaliacaoDAO {
                 stmt.execute(); 
                 return true; // Genero inserida com sucesso
             } catch (Exception e) {
+                e.printStackTrace();
                 return false; // Genero não inserida devido algum problema
             }
         } else {
@@ -84,11 +85,12 @@ public class AvaliacaoDAO {
             stmt.execute();
             return true; // alterada com sucesso
         } catch (Exception e) {
+            e.printStackTrace();
             return false; // não alterada devido algum problema
         }
     }
 
-    public boolean removerAvaliacao(int avaliacaoID) {
+    public boolean removerAvaliacao(int avaliacaoID) throws Exception {
         String query = "DELETE FROM avaliacoes WHERE avaliacoes_id = ?";
 
         try (Connection conn = ConnectionFactory.obterConexao(); 
@@ -96,9 +98,10 @@ public class AvaliacaoDAO {
 
             stmt.setInt(1, avaliacaoID);
             stmt.execute();
-            return true; // alterada com sucesso
+            return true; // removida com sucesso
         } catch (Exception e) {
-            return false; // não alterada devido algum problema
+            e.printStackTrace();
+            return false; // não removida devido algum problema
         }
     }
 }

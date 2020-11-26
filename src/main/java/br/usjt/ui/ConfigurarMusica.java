@@ -12,6 +12,7 @@ import br.usjt.dao.GeneroDAO;
 import br.usjt.dao.MusicaDAO;
 import br.usjt.dao.MusicaGeneroDAO;
 
+// TODO: Limpar lista de select cadastro musica
 public class ConfigurarMusica extends FramePrincipal {
 
     private static final long serialVersionUID = -4893308254001876751L;
@@ -198,7 +199,7 @@ public class ConfigurarMusica extends FramePrincipal {
         String[] oQueFazer = {"Escolha uma opção...", 
                                 "Cadastrar Música",
                                 "Verificar Músicas",
-                                "Alterar Cadastro Música", 
+                                // "Alterar Cadastro Música", 
                                 "Excluir Música"};
 
         oQueFazerComboBox.setModel(new DefaultComboBoxModel<>(oQueFazer));

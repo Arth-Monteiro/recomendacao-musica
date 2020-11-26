@@ -35,7 +35,7 @@ public class UsuarioAdm extends Usuario {
         switch (opcao) {
             case 0: limparPanel(evt); break;
             case 1: new SignIn(adm).setVisible(true); this.dispose(); break;
-            case 2: new ConfigurarGenero(adm).setVisible(true); this.dispose();
+            case 2: new ConfigurarGenero(adm).setVisible(true); this.dispose();break;
             case 3: new ConfigurarMusica(adm).setVisible(true); this.dispose(); break;
             case 4: alterSenhaActionPerformed(evt, adm.getUserID()); break;
             case 5: excludeAccountActionPerformed(evt, adm.getUserID()); break;

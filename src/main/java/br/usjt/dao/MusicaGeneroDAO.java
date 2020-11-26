@@ -3,7 +3,6 @@ package br.usjt.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.Arrays;
 
 import br.usjt.conexao.ConnectionFactory;
 import br.usjt.model.Genero;
@@ -19,6 +18,7 @@ public class MusicaGeneroDAO {
             stmt.execute(); 
             return true; // Genero excluido com sucesso
         } catch (Exception e) {
+            e.printStackTrace();
             return false; // Genero não excluido devido algum problema
         }
     
@@ -34,6 +34,7 @@ public class MusicaGeneroDAO {
             stmt.execute(); 
             return true; // Genero excluido com sucesso
         } catch (Exception e) {
+            e.printStackTrace();
             return false; // Genero não excluido devido algum problema
         }
     }
@@ -49,6 +50,7 @@ public class MusicaGeneroDAO {
             stmt.execute(); 
             return true; // Musica inserida com sucesso
         } catch (Exception e) {
+            e.printStackTrace();
             return false; // Musica não inserida devido algum problema
         }
     }
@@ -64,6 +66,7 @@ public class MusicaGeneroDAO {
             stmt.execute(); 
             return true; // Musica atualizada com sucesso
         } catch (Exception e) {
+            e.printStackTrace();
             return false; // Musica não atualizada devido algum problema
         }
     }

@@ -55,6 +55,7 @@ public class GeneroDAO {
             stmt.execute(); 
             return true; // Genero cadastrado com sucesso
         } catch (Exception e) {
+            e.printStackTrace();
             return false; // Genero nao cadastrado devido algum problema
         }
     }
@@ -62,7 +63,7 @@ public class GeneroDAO {
     public boolean excluir(int generoID) throws Exception {
         String query = "DELETE FROM genero WHERE id = ?";
         
-        if ((new MusicaGeneroDAO().excluirGenero(generoID)) && (new UserGeneroDAO().excluirGenero(generoID))) {
+        if ((new MusicaGeneroDAO().excluirGenero(generoID)) && (new UserGeneroDAO().excluirGenero(generoID))){
             try (Connection conn = ConnectionFactory.obterConexao(); 
                     PreparedStatement stmt = conn.prepareStatement(query)) {
                 
@@ -70,6 +71,7 @@ public class GeneroDAO {
                 stmt.execute(); 
                 return true; // Genero excluido com sucesso
             } catch (Exception e) {
+                e.printStackTrace();
                 return false; // Genero não excluido devido algum problema
             }
         } else {
@@ -88,6 +90,7 @@ public class GeneroDAO {
             stmt.execute(); 
             return true; // Genero alterado com sucesso
         } catch (Exception e) {
+            e.printStackTrace();
             return false; // Genero nao alterado devido algum problema
         }
     }
