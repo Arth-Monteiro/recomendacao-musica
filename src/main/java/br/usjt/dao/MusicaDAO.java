@@ -222,8 +222,6 @@ public class MusicaDAO {
                         + " GROUP BY musica.id"
                         + " ORDER BY musica.posto DESC";
 
-                        System.out.println(query);
-
         try (Connection conn = ConnectionFactory.obterConexao(); 
                 PreparedStatement stmt = conn.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
 

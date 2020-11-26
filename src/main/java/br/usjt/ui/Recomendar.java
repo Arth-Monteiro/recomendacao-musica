@@ -22,7 +22,7 @@ public class Recomendar extends FramePrincipal {
         initTelaRecomendar(user);
         this.setLocationRelativeTo(container);
     }
-
+// TODO: remover musica OUTER JOIN
     private void initTelaRecomendar(User user) {
         Font fonteLabels = new Font("sansserif", Font.BOLD, 13);
         Color branco = Color.WHITE;
