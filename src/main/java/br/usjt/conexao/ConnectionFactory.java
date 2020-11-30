@@ -12,6 +12,7 @@ public class ConnectionFactory {
     private static final String PWD = "useradmin";
 
     public static Connection obterConexao() throws Exception {
+		// Retorna a conexão com o banco de dados
 		return DriverManager.getConnection(URL, USR, PWD);
 	}
 }

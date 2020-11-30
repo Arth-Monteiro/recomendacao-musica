@@ -9,7 +9,8 @@ import br.usjt.model.Musica;
 import br.usjt.model.Genero;
 
 public class MusicaDAO {
-
+    
+    // Para verificar se ja existe o nome da musica
     public boolean verificarMusica(String nomeMusica) throws Exception {
         String query = "SELECT nome FROM musica WHERE nome_musica = ?";
         try (Connection conn = ConnectionFactory.obterConexao(); 
@@ -26,6 +27,7 @@ public class MusicaDAO {
         }
     }
 
+    // Para inserir um novo registro de uma musica
     public boolean inserir(Musica musica) throws Exception {
         String query = "INSERT INTO musica (nome_musica, nome_artista) VALUES (?, ?)";
         
@@ -42,6 +44,7 @@ public class MusicaDAO {
         }
     }
 
+    // Para buscar uma musica especifica pelo nome dela e do artista
     public void selectMusica(Musica musica) throws Exception {
         String query = "SELECT * FROM musica WHERE nome_musica = ? AND nome_artista = ?";
         
@@ -67,6 +70,7 @@ public class MusicaDAO {
         }
     }
 
+    // Para buscar a musica pelo id dela
     public Musica selectMusica(int musicaID) throws Exception {
         String query = "SELECT * FROM musica WHERE id = ?";
         try (Connection conn = ConnectionFactory.obterConexao(); 
@@ -88,6 +92,7 @@ public class MusicaDAO {
         }
     }
 
+    // Para buscar todas as Musicas
     public Musica[] obterMusicas() throws Exception {
         String query = "SELECT * FROM musica ORDER BY nome_musica";
         
@@ -112,6 +117,7 @@ public class MusicaDAO {
 		}
     }
 
+    // Para atualizar a musica, mudando nome dela e do artista -- nao esta sendo usada no momento
     public boolean alterar(Musica musica) throws Exception {
         String query = "UPDATE musica SET nome_musica = ?, nome_artista = ? WHERE id = ?";
 
@@ -129,6 +135,7 @@ public class MusicaDAO {
         }
     }
 
+    // Para excluir uma musica pelo id dela
     public boolean excluir(int musicaID) throws Exception {
         String query = "DELETE FROM musica WHERE id = ?";
         
@@ -148,6 +155,7 @@ public class MusicaDAO {
         }
     }
 
+    // Para buscar todas as musicas de um genero especifico
     public Musica[] obterMusicasGeneros(int generoID) throws Exception {
         String query = "SELECT musica.id as id, musica.nome_musica as nome_musica,"
                         + " musica.nome_artista as nome_artista, musica.posto as posto"
@@ -182,6 +190,9 @@ public class MusicaDAO {
         }
     }
 
+    // Para buscar todas as musicas de diversos generos. O parametro de filtro,
+    // caso true filtra somente as musicas que ja foram avaliadas com alguma nota,
+    // caso false retorna as musicas avaliadas e as nao avaliadas
     public Musica[] obterMusicasGeneros(Genero[] generos, Musica[] musicasAva, boolean nullFilter) throws Exception {
         
         String listaGeneros = "";  

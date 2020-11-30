@@ -9,6 +9,7 @@ import br.usjt.model.Genero;
 
 public class GeneroDAO {
 
+    // Para buscar todos os generos
     public Genero[] obterGeneros() throws Exception {
         String query = "SELECT * FROM genero ORDER BY nome";
         
@@ -30,6 +31,7 @@ public class GeneroDAO {
 		}
     }
     
+    // para verificar se já existe o nome de genero
     public boolean verificarGenero(String nomeGenero) throws Exception {
         String query = "SELECT nome FROM genero WHERE nome = ?";
         try (Connection conn = ConnectionFactory.obterConexao(); 
@@ -45,6 +47,7 @@ public class GeneroDAO {
         }
     }
     
+    // Para inserir um novo genero
     public boolean inserir(String nomeGenero) throws Exception {
         String query = "INSERT INTO genero (nome) VALUES (?)";
         
@@ -60,6 +63,7 @@ public class GeneroDAO {
         }
     }
 
+    // Para excluir um genero
     public boolean excluir(int generoID) throws Exception {
         String query = "DELETE FROM genero WHERE id = ?";
         
@@ -79,6 +83,7 @@ public class GeneroDAO {
         }
     }
 
+    // Para atualizar e alterar o nome do genero
     public boolean alterar(Genero genero) throws Exception {
         String query = "UPDATE genero SET nome = ? WHERE id = ?";
 
@@ -95,6 +100,7 @@ public class GeneroDAO {
         }
     }
 
+    // Para buscar um genero especifico
     public Genero select(int generoID) throws Exception {
         String query = "SELECT * FROM genero WHERE id = ?";
         try (Connection conn = ConnectionFactory.obterConexao(); 

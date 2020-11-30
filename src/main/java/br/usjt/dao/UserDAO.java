@@ -9,6 +9,7 @@ import br.usjt.model.User;
 
 public class UserDAO {
 
+    // Para realizar login, caso haja o username e a senha em algum registro, seta os outros campos de user.
     public boolean login(User user) throws Exception {
         // Query para verificar se existe usuario
         String query = "SELECT * FROM users WHERE username = ? AND senha = ?"; 
@@ -39,6 +40,7 @@ public class UserDAO {
         }   
     }
 
+    // Verifica se já existe o username ou se é um novo
     public boolean verificarUsername(String username) throws Exception {
         // Query para verificar se existe nome de usuario
         String query = "SELECT * FROM users WHERE username = ?"; 
@@ -58,6 +60,7 @@ public class UserDAO {
         }
     }
 
+    // Para inserir um usuario novo
     public boolean signin(User user) throws Exception {
         // Query para cadastrar usuario
         String query = "INSERT INTO users (nome, username, senha, tipo) VALUES (?, ?, ?, ?)";
@@ -77,6 +80,7 @@ public class UserDAO {
             }
     }
 
+    // Exclui o registro do usuario.
     public boolean excluirConta(int userID) throws Exception {
         // Query para deletar usuario
         String query = "DELETE FROM users WHERE id = ?";
@@ -96,6 +100,7 @@ public class UserDAO {
         }
     }
 
+    // Atualiza a senha do registro
     public boolean atualizarSenha(String password, int userID) throws Exception {
         String query = "UPDATE users SET senha = ? WHERE id = ?";
 

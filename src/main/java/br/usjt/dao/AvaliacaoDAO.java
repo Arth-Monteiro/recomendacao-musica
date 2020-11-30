@@ -10,6 +10,7 @@ import br.usjt.model.Musica;
 import br.usjt.model.User;
 
 public class AvaliacaoDAO {
+    // Para  inserir um registro de uma avaliacao do usuario para uma musica especifica
     public boolean inserirAvaliacao(int userID, int musicaID, int nota) throws Exception {
         String query = "INSERT INTO avaliacoes (user_id, musica_id, nota_avaliacao) VALUES (?, ?, ?)";
 
@@ -31,6 +32,7 @@ public class AvaliacaoDAO {
         }
     }
 
+    // Para buscar um registro especifico de uma avaliacao dada à musica pelo usuario
     public boolean verificarAvaliacao(int userID, int musicaID) throws Exception{
         String query = "SELECT * FROM avaliacoes WHERE user_id = ? AND musica_id = ?";
         
@@ -49,6 +51,7 @@ public class AvaliacaoDAO {
         }
     }
 
+    // Para buscar todas as avaliacoes feitas pelo usuario
     public Avaliacao[] selectAvaliacoes(User user) throws Exception {
         String query = "SELECT * FROM avaliacoes WHERE user_id = ?";
         try (Connection conn = ConnectionFactory.obterConexao(); 
@@ -74,6 +77,7 @@ public class AvaliacaoDAO {
         }
     }
 
+    // Para atualizar uma avaliacao especifica
     public boolean alterarAvaliacao(int avaliacaoID, int nota) throws Exception {
         String query = "UPDATE avaliacoes SET nota_avaliacao = ? WHERE avaliacoes_id = ?";
 
@@ -90,6 +94,7 @@ public class AvaliacaoDAO {
         }
     }
 
+    // Para deletar uma avaliacao -- por enquanto nao esta sendo usada
     public boolean removerAvaliacao(int avaliacaoID) throws Exception {
         String query = "DELETE FROM avaliacoes WHERE avaliacoes_id = ?";
 

@@ -8,6 +8,7 @@ import br.usjt.conexao.ConnectionFactory;
 import br.usjt.model.Genero;
 
 public class MusicaGeneroDAO {
+    // Para excluir um registro da tabela de relacao entre musica e genero atraves do genero_id
     public boolean excluirGenero(int generoID) throws Exception {
         String query = "DELETE FROM musicaGenero WHERE genero_id = ?";
         
@@ -24,6 +25,7 @@ public class MusicaGeneroDAO {
     
     }
     
+    // Para excluir um registro da tabela de relacao entre musica e genero atraves do musica_id
     public boolean excluirMusica(int musicaID) throws Exception {
         String query = "DELETE FROM musicaGenero WHERE musica_id = ?";
         
@@ -39,6 +41,7 @@ public class MusicaGeneroDAO {
         }
     }
 
+    // Para inserir um registro de relacao entre genero e musica
     public boolean inserirMusica(int musicaID, int generoID) {
         String query = "INSERT INTO musicaGenero (musica_id, genero_id) VALUES (?, ?)";
         
@@ -55,6 +58,7 @@ public class MusicaGeneroDAO {
         }
     }
 
+    // Para atualizar um registro -- nao esta sendo usado no momento
     public boolean atualizarMusica(int musicaID, int generoID) {
         String query = "UPDATE musicaGenero SET genero_id = ? WHERE musica_id = ?";        
 
@@ -71,6 +75,7 @@ public class MusicaGeneroDAO {
         }
     }
 
+    // Retorna todos os generos que uma musica esta relacionada
     public Genero[] buscarGenero(int musicaID) throws Exception {
         String query = "SELECT genero_id FROM musicaGenero WHERE musica_id = ?";
         try (Connection conn = ConnectionFactory.obterConexao(); 

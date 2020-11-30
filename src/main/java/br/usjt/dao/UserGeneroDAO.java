@@ -9,6 +9,7 @@ import br.usjt.conexao.ConnectionFactory;
 import br.usjt.model.Genero;
 
 public class UserGeneroDAO {
+    // Inseri uma nova relacao dos generos que o usuario gosta
     public boolean inserirGenero(int userID, int generoID) {
         String query = "INSERT INTO userGenero (user_id, genero_id) VALUES (?, ?)";
         
@@ -25,6 +26,7 @@ public class UserGeneroDAO {
         }
     }
 
+    // Exclui uma relacao dos generos que o usuario gosta
     public boolean excluirGenero(int generoID) throws Exception {
         String query = "DELETE FROM userGenero WHERE genero_id = ?";
         
@@ -40,6 +42,7 @@ public class UserGeneroDAO {
         }
     }
 
+    // Quando exclui um usuario, exclui tambem as relacoes de genero dele
     public boolean excluirUser(int userID) throws Exception {
         String query = "DELETE FROM userGenero WHERE user_ID = ?";
         
@@ -55,6 +58,7 @@ public class UserGeneroDAO {
         }
     }
 
+    // Busca todos os generos que o usuario gosta
     public Genero[] selectGeneros(int userID) throws Exception {
         String query = "SELECT genero_id FROM userGenero WHERE user_id = ?";
         try (Connection conn = ConnectionFactory.obterConexao(); 
