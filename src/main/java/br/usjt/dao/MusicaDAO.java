@@ -190,7 +190,9 @@ public class MusicaDAO {
         }
     }
 
-    // Para buscar todas as musicas de diversos generos. O parametro de filtro,
+    // Para buscar todas as musicas de diversos generos
+    // E tiro todas as musicas que ja foram avaliadas pelo user enviadas no param musicasAva. 
+    // O parametro de filtro,
     // caso true filtra somente as musicas que ja foram avaliadas com alguma nota,
     // caso false retorna as musicas avaliadas e as nao avaliadas
     public Musica[] obterMusicasGeneros(Genero[] generos, Musica[] musicasAva, boolean nullFilter) throws Exception {
