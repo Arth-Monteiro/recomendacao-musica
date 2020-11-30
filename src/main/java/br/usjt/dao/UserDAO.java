@@ -85,7 +85,7 @@ public class UserDAO {
         // Query para deletar usuario
         String query = "DELETE FROM users WHERE id = ?";
         
-        if (new UserGeneroDAO().excluirUser(userID)) {
+        if ((new AvaliacaoDAO().alterarAvaliacao(userID)) && (new UserGeneroDAO().excluirUser(userID))) {
             try (Connection conn = ConnectionFactory.obterConexao(); 
                     PreparedStatement stmt = conn.prepareStatement(query)) {
 

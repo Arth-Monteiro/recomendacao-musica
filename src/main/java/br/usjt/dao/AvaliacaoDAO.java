@@ -109,4 +109,22 @@ public class AvaliacaoDAO {
             return false; // não removida devido algum problema
         }
     }
+
+        // Para atualizar as avaliacoes do usuario
+        // durante a exclusao da conta e desatribuir a este usuario
+        public boolean alterarAvaliacao(int userID) throws Exception {
+            String query = "UPDATE avaliacoes SET user_id = null WHERE user_id = ?";
+    
+            try (Connection conn = ConnectionFactory.obterConexao(); 
+                    PreparedStatement stmt = conn.prepareStatement(query)) {
+    
+                stmt.setInt(1, userID);
+                stmt.execute();
+                return true; // alterada com sucesso
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false; // não alterada devido algum problema
+            }
+        }
+
 }
