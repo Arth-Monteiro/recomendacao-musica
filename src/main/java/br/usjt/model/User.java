@@ -19,3 +19,9 @@ public class User {
     }
 }
 
+/*
+Através do lombok, criei todos os Getters e Setters para cada atributo.
+Com o RequiredArgs, gerei um construtor que precisa apenas dos atributos que tiverem
+    @NonNull na frente
+Manualmente fiz um construtor que precisa apenas do username e do password
+*/
