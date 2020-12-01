@@ -22,7 +22,8 @@ public class Inicio extends FramePrincipal {
     private void initTelaInicio() {
         Font fontLabel = new Font("sansserif", Font.BOLD, 16);
         // Label de mensagem de Bem vindo
-        messageLabel = criarJLabel("Bem vindo ao Sistema de Recomendação Musical ACME", fontLabel, null);
+        // messageLabel = criarJLabel("Bem vindo ao Sistema de Recomendação Musical ACME", fontLabel, null);
+        messageLabel = criarJLabel("Bem vindo ao ACMúsica", fontLabel, Color.WHITE);
         
 		signInButton = criarJButton("SIGN IN");
 		loginButton = criarJButton("LOGIN");
