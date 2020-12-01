@@ -8,6 +8,7 @@ import br.usjt.model.User;
 import br.usjt.model.Genero;
 import br.usjt.dao.GeneroDAO;
 
+// Herda Frame Principal
 public class ConfigurarGenero extends FramePrincipal {
 
     private static final long serialVersionUID = -3156715740517404854L;
@@ -43,12 +44,14 @@ public class ConfigurarGenero extends FramePrincipal {
         generoTextField = criarJTextField();
          
 
+        // Cria "ouvinte de acoes"
         oQueFazerComboBox.addActionListener(evt -> verificarOQueFazerActionPerformed(evt));
         cadastrarButton.addActionListener(evt -> cadastrarGeneroActionPerformed(evt));
         alterarButton.addActionListener(evt -> alterarCadGeneroActionPerformed(evt));
         removerButton.addActionListener(evt -> excluirGeneroActionPerformed(evt));
         voltarButton.addActionListener(evt -> voltarButtonActionPerformed(evt, adm));
 
+        // Adiciona componentes no panel
         panel.add(oQueFazerComboBox);
         panel.add(generosComboBox);
         panel.add(cadastrarButton);
@@ -60,14 +63,17 @@ public class ConfigurarGenero extends FramePrincipal {
         panel.add(generoTextField);
         panel.add(voltarButton);
 
-        limparPanel(null);
+        limparPanel(null); // Faz maioria dos panels ficar "invisivel"
 
+        // Define layout do panel como GroupLayout
         GroupLayout layout = new GroupLayout(panel);
 		panel.setLayout(layout);
 
+        // Cria gaps entre componentes e containers automaticamente
 		layout.setAutoCreateGaps(true);
-        layout.setAutoCreateContainerGaps(true);
-
+		layout.setAutoCreateContainerGaps(true);
+        
+        // Organiza componentes no panel Horizontalmente
         layout.setHorizontalGroup(
             layout.createParallelGroup(GroupLayout.Alignment.CENTER)
             .addComponent(oQueFazerComboBox, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
@@ -106,6 +112,7 @@ public class ConfigurarGenero extends FramePrincipal {
             .addComponent(exitButton, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
         );
 
+        // Organiza componentes no panel Verticalmente
         layout.setVerticalGroup(
             layout.createSequentialGroup()
             .addComponent(oQueFazerComboBox)
@@ -133,12 +140,12 @@ public class ConfigurarGenero extends FramePrincipal {
             .addComponent(exitButton, GroupLayout.PREFERRED_SIZE,  GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
         );
 
-        pack();
+        pack(); // Agrupa tudo no panel
         
     }
 
     private void comboBoxoQueFazer() {
-        
+        // Opcoes do que fazer
         String[] oQueFazer = {"Escolha uma opção...", 
                                 "Cadastrar Gênero",
                                 "Verificar Gêneros",
@@ -148,6 +155,7 @@ public class ConfigurarGenero extends FramePrincipal {
         oQueFazerComboBox.setModel(new DefaultComboBoxModel<>(oQueFazer));
     }
 
+    // Funcao para buscar Generos
     private void buscarGeneros() {
         try {
 			GeneroDAO generoDao = new GeneroDAO();
@@ -159,6 +167,7 @@ public class ConfigurarGenero extends FramePrincipal {
 		}
     }
 
+    // Funcao para seta maioria dos componentes como "invisivel"
     private void limparPanel(ActionEvent evt) {
         generosComboBox.setVisible(false);
         cadastrarButton.setVisible(false);
@@ -169,6 +178,7 @@ public class ConfigurarGenero extends FramePrincipal {
         generoTextField.setVisible(false);
     }
 
+    // Funcao para verificar o que fazer
     private void verificarOQueFazerActionPerformed(ActionEvent evt) {
         int opcao = oQueFazerComboBox.getSelectedIndex();
         switch (opcao) {
@@ -180,6 +190,7 @@ public class ConfigurarGenero extends FramePrincipal {
         }
     }
 
+    // Funcao para cadastrar genero
     private void cadastrarGeneroActionPerformed(ActionEvent evt) {
         // Limpar Panel
         if ((alterarButton.isVisible()) || (removerButton.isVisible()) || (generosComboBox.isVisible())) {
@@ -198,6 +209,8 @@ public class ConfigurarGenero extends FramePrincipal {
         } else {
             String nomeGenero = generoTextField.getText().toLowerCase();
             nomeGenero = nomeGenero.substring(0,1).toUpperCase() + nomeGenero.substring(1);
+
+            // Verifica campo do nome do Genero, se tudo certo, cadastra
             if ((nomeGenero.isEmpty()) || (nomeGenero.length() > 50 )) {
                 JOptionPane.showMessageDialog(null, "Campo 'Nome Genero' incorreto!", "Campo Incorreto", 0);
             } else {
@@ -222,12 +235,14 @@ public class ConfigurarGenero extends FramePrincipal {
         }
     }
 
+    // Funcao que busca os generos para mostrar todos os generos cadastrados no sistema
     private void verificarGeneroActionPerformed(ActionEvent evt) {
         limparPanel(evt);
         buscarGeneros();
         generosComboBox.setVisible(true);
     }
 
+    // Funcao para alterar o cadastro do Genero
     private void alterarCadGeneroActionPerformed(ActionEvent evt) {
         // Limpar panel
         if ((cadastrarButton.isVisible()) || (removerButton.isVisible())) {
@@ -248,6 +263,8 @@ public class ConfigurarGenero extends FramePrincipal {
             
             Genero genero = (Genero) generosComboBox.getSelectedItem();
             String novoNomeGenero = generoTextField.getText();
+
+            // Verifica campo do novo nome do genero e altera o cadastro
             if ((novoNomeGenero.isEmpty()) || (novoNomeGenero.length() > 50 )) {
                 JOptionPane.showMessageDialog(null, "Campo 'Nome Genero' incorreto!", "Campo Incorreto", 0);
             } else {
@@ -268,6 +285,7 @@ public class ConfigurarGenero extends FramePrincipal {
         }
     }
 
+    // Funcao para excluri genero
     private void excluirGeneroActionPerformed(ActionEvent evt) {
         // Limpar panel
         if ((cadastrarButton.isVisible()) || (alterarButton.isVisible())) {
@@ -284,11 +302,12 @@ public class ConfigurarGenero extends FramePrincipal {
             generosComboBox.setVisible(true);
             removerButton.setVisible(true);
         } else {
+            // Caso confirme a exclusao, pega o genero selecionado no ComboBox e exclui
             Genero genero = (Genero) generosComboBox.getSelectedItem();
             int generoID = genero.getGeneroID();
             try {
                 if (new GeneroDAO().excluir(generoID)) {
-                    limparPanel(evt);
+                    limparPanel(evt); // Limpa o panel
                     comboBoxoQueFazer();
                     JOptionPane.showMessageDialog(null, "Gênero excluído com sucesso.", "Bem sucedido", 1);    
                 } else {
@@ -301,6 +320,7 @@ public class ConfigurarGenero extends FramePrincipal {
         }
     }
 
+    // Funcao do botao voltar onde volta para a tela do usuario adm
     private void voltarButtonActionPerformed(ActionEvent evt, User adm) {
         new UsuarioAdm(adm).setVisible(true);
         this.dispose();

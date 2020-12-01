@@ -6,6 +6,7 @@ import javax.swing.*;
 
 import br.usjt.model.User;
 
+// Herda o FramePrincipal
 public class Inicio extends FramePrincipal {
 
     private static final long serialVersionUID = -6627393089076807210L;
@@ -20,24 +21,30 @@ public class Inicio extends FramePrincipal {
 
     private void initTelaInicio() {
         Font fontLabel = new Font("sansserif", Font.BOLD, 16);
+        // Label de mensagem de Bem vindo
         messageLabel = criarJLabel("Bem vindo ao Sistema de Recomendação Musical ACME", fontLabel, null);
         
 		signInButton = criarJButton("SIGN IN");
 		loginButton = criarJButton("LOGIN");
 
+        // Cria "ouvintes de acoes" aos botoes
         signInButton.addActionListener(evt -> signInButtonActionPerformed(evt));
 		loginButton.addActionListener(evt -> loginButtonActionPerformed(evt));
 
+        // Adiciona componentes ao panel
         panel.add(messageLabel);
 		panel.add(signInButton);
         panel.add(loginButton);
         
+        // Define layout do panel como GroupLayout
         GroupLayout layout = new GroupLayout(panel);
 		panel.setLayout(layout);
 
+        // Cria gaps entre componentes e containers automaticamente
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
-		
+        
+        // Organiza componentes no panel Horizontalmente
 		layout.setHorizontalGroup(
 			layout.createParallelGroup(GroupLayout.Alignment.CENTER)
             .addComponent(messageLabel)
@@ -51,8 +58,9 @@ public class Inicio extends FramePrincipal {
                 .addComponent(darkModeButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addComponent(exitButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
             )
-		);
-
+        );
+        
+        // Organiza componentes no panel Verticalmente
 		layout.setVerticalGroup(
 			layout.createSequentialGroup()
             .addComponent(messageLabel,GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
@@ -67,9 +75,11 @@ public class Inicio extends FramePrincipal {
                 .addComponent(exitButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
             )
         );
-        pack();
+        
+        pack(); // Agrupa tudo no panel
     }
 
+    // Leva para a tela de Signin
     private void signInButtonActionPerformed(ActionEvent evt) {
         User user = new User("", "", "", "R");
         SignIn signIn = new SignIn(user);
@@ -77,6 +87,7 @@ public class Inicio extends FramePrincipal {
         this.dispose();
     }
     
+    // Leva para a tela de Login
     private void loginButtonActionPerformed(ActionEvent evt) {
         Login login = new Login();
         login.setVisible(true);

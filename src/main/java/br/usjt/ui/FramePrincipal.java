@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+// Classe onde concentrei todos os botoes, containers e panel padrao
+// Assim, em um lugar so defini o tamanho e a cor padrao
 public class FramePrincipal extends JFrame {
  
     private static final long serialVersionUID = 1855684694660214127L;
@@ -13,7 +15,7 @@ public class FramePrincipal extends JFrame {
     protected JButton darkModeButton, exitButton, inicioButton;
 
     public FramePrincipal() {
-        super("Recomendação de Músicas");
+        super("Recomendação de Músicas"); // Construtor do pai JFrame.
         definirComponentesPrincipais();
         this.setLocationRelativeTo(null);
     }
@@ -24,7 +26,7 @@ public class FramePrincipal extends JFrame {
         container.setBackground(converteRGB("b12322"));
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         
-        container.setLayout(new GridBagLayout());
+        container.setLayout(new GridBagLayout()); // Define o layout do JFrame
         
         this.panel = new JPanel();
         this.darkModeButton = criarJButton("DARK");
@@ -34,21 +36,24 @@ public class FramePrincipal extends JFrame {
 
         this.inicioButton = criarJButton("INICIO");
 
-        panel.setOpaque(false);
+        panel.setOpaque(false); // Define o panel como Opaco para que assim so seja preciso definir a cor 
+                                // do JFrame (container principal)
 
-        container.add(panel);
+        container.add(panel); // Adicional o panel no container principal
 
-        
+        // Adiciona "ouvintes de ações" em cada botao
         darkModeButton.addActionListener(evt -> darkButtonActionPerformed(evt));
         exitButton.addActionListener(evt -> exitButtonActionPerformed(evt));
         inicioButton.addActionListener(evt -> inicioButtonActionPerformed(evt));
 
+        // Adiciona botoes no panel
         panel.add(darkModeButton);
         panel.add(exitButton);
         panel.add(inicioButton);
 
     }
 
+    // Funcao para mudar a cor vermelha para cinza e vice versa. Apenas um "enfeite do codigo"
     private void darkButtonActionPerformed(ActionEvent evt) {
         if (darkModeButton.getBackground().equals(converteRGB("3b3b3b"))) {
             container.setBackground(converteRGB("3b3b3b"));
@@ -61,21 +66,29 @@ public class FramePrincipal extends JFrame {
         }
     }
 
-    private void inicioButtonActionPerformed(ActionEvent evt) {
+    // Quando o botao "Inicio", pode estar renomeado como "LOG OUT", for pressionado,
+    // retorna para a tela de inicio
+    protected void inicioButtonActionPerformed(ActionEvent evt) {
         Inicio inicio = new Inicio();
         inicio.setVisible(true);
         this.dispose();
     }
 
+    // Quando o botao sair for pressionado, fecha a aplicacao
     private void exitButtonActionPerformed(ActionEvent evt) {
         this.dispose();
     }
 
+    // Funcao para criar CheckBoxes com o texto do parametro e cor do texto da cor do param
     public JCheckBox criarJCheckBox(String text, Color cor) {
         JCheckBox checkBox = new JCheckBox(text);
         checkBox.setForeground(cor);
         return checkBox;
     }
+
+    // Funcao para criar um Button com o texto designado pelo parametro
+    // Tambem define o tamanho padrao do botao de 80x30
+    // Alem de definir a fonte padrao como sansserif, negrito, tamanho 12
     public JButton criarJButton(String text) {
         JButton button = new JButton();
         button.setText(text);
@@ -84,10 +97,14 @@ public class FramePrincipal extends JFrame {
         return button;
     }
 
+    // Funcao para criar uma caixa de texto
     public JTextField criarJTextField() {
         return new JTextField();
     }
 
+    // Funcao para criar um Label com o texto designado pelo param
+    // Caso a fonte ou a cor sejam diferentes de nulos, altera
+    // Para o que estiver designado pelo param
     public JLabel criarJLabel(String text, Font font, Color color) {
         JLabel label = new JLabel(text);
         
@@ -102,6 +119,7 @@ public class FramePrincipal extends JFrame {
 		return label;
     }
 
+    // Funcao para converter codigo hexadecimal em uma cor RGB
     public static Color converteRGB(String hex) {
         String sr = hex.substring(0,2);
         String sg = hex.substring(2,4);

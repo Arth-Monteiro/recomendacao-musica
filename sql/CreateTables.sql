@@ -12,10 +12,6 @@ CREATE TABLE users (
     tipo CHAR(1)
 );
 
-INSERT INTO users (nome, username, senha, tipo) VALUES 
-('Teste', 'testuser', '12345678', 'R'),
-('Teste', 'testadm', '12345678', 'A');
-
 CREATE TABLE genero (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(50) NOT NULL UNIQUE
@@ -59,6 +55,7 @@ CREATE TABLE avaliacoes (
         REFERENCES musica(id)
 );
 
+
 SET SQL_SAFE_UPDATES = 0;
 
 DELIMITER $$
@@ -67,27 +64,26 @@ CREATE TRIGGER update_posto_insert
 	ON avaliacoes FOR EACH ROW
 BEGIN
 UPDATE musica AS dest
-    INNER JOIN 
+    INNER JOIN (
 		SELECT SUM(nota_avaliacao)/COUNT(musica_id) AS posto, musica_id FROM avaliacoes
 		GROUP BY avaliacoes.musica_id
 	) AS src ON src.musica_id = dest.id
 	SET dest.posto = src.posto
     WHERE dest.id = src.musica_id;
-END;
+END$$
 
-DELIMITER $$
 CREATE TRIGGER update_posto_update
 	AFTER UPDATE
 	ON avaliacoes FOR EACH ROW
 BEGIN
 UPDATE musica AS dest
-    INNER JOIN 
+    INNER JOIN (
 		SELECT SUM(nota_avaliacao)/COUNT(musica_id) AS posto, musica_id FROM avaliacoes
 		GROUP BY avaliacoes.musica_id
 	) AS src ON src.musica_id = dest.id
 	SET dest.posto = src.posto
     WHERE dest.id = src.musica_id;
-END;
+END$$
 
 -- DELIMITER $$
 -- CREATE TRIGGER update_posto_delete
@@ -103,7 +99,7 @@ END;
 --     WHERE dest.id = src.musica_id;
 -- END;
 
-DELIMITER $$
+DELIMITER $
 CREATE TRIGGER delete_genero_musica_avaliacoes
 	AFTER DELETE 
     ON genero FOR EACH ROW
@@ -119,4 +115,4 @@ BEGIN
     LEFT JOIN musicaGenero
     ON musica.id = musicaGenero.musica_id
 	WHERE musicaGenero.id IS NULL;
-END;
+END$

@@ -7,18 +7,19 @@ import javax.swing.*;
 import br.usjt.model.User;
 import br.usjt.dao.UserDAO;
 
+// Herda a tela de Usuario
 public class UsuarioComum extends Usuario {
 
     private static final long serialVersionUID = 2013351195869556815L;
 
     public UsuarioComum(User user) {
-        super(user);
+        super(user); // Constroi a classe pai com as informacoes do usuario
         initTelaUsuarioComum(user);
         this.setLocationRelativeTo(container);
     }
 
     private void initTelaUsuarioComum(User user) {
-
+        // Opcoes do que fazer
         String[] oQueFazer = {"Escolha uma opção...", 
                                 "Configurar Gêneros Favoritos",
                                 "Avaliar Música", 
@@ -28,16 +29,18 @@ public class UsuarioComum extends Usuario {
 
         oQueFazerComboBox.setModel(new DefaultComboBoxModel<>(oQueFazer));
        
+        // Cria "ouvinte de acoes" do que fazer para cada opcao
         oQueFazerComboBox.addActionListener(evt -> verificarOQueFazerActionPerformed(evt, user));
     }
 
     private void verificarOQueFazerActionPerformed(ActionEvent evt, User user) {
+        // pega o index da opcao e leva para cada tela especifica
         int opcao = oQueFazerComboBox.getSelectedIndex();
         switch (opcao) {
             case 0: limparPanel(evt); break;
-            case 1: new GenerosFavoritos(user).setVisible(true); this.dispose(); break;
-            case 2: new AvaliarMusica(user).setVisible(true); this.dispose(); break; // Avaliar, Alterar e ou Excluir 
-            case 3: new Recomendar(user).setVisible(true); this.dispose(); break;
+            case 1: new GenerosFavoritos(user).setVisible(true); this.dispose(); break; // Leva para tela de configurar os generos favoritos do usuario
+            case 2: new AvaliarMusica(user).setVisible(true); this.dispose(); break; // Leva para a tela de avaliar ou alterar a avaliacao de uma musica
+            case 3: new Recomendar(user).setVisible(true); this.dispose(); break; // Leva para a tela de recomndacao
             case 4: alterSenhaActionPerformed(evt, user.getUserID()); break;
             case 5: excludeAccountActionPerformed(evt, user.getUserID()); break;
         }   

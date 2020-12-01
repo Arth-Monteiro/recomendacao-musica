@@ -7,17 +7,19 @@ import javax.swing.*;
 import br.usjt.model.User;
 import br.usjt.dao.UserDAO;
 
+// Herda a tela de Usuario
 public class UsuarioAdm extends Usuario {
 
     private static final long serialVersionUID = 484857305672929201L;
 
     public UsuarioAdm(User adm) {
-        super(adm);
+        super(adm); // Constroi a classe pai com as informacoes do usuario
         initTelaUsuarioAdm(adm);
         this.setLocationRelativeTo(container);
     }
 
     private void initTelaUsuarioAdm(User adm) {
+        // Opcoes do que fazer
         String[] oQueFazer = {"Escolha uma opção...", 
                                 "Cadastrar Usuário",            // Opcao 1
                                 "Configurar Gêneros Musicais",  // Opcao 2
@@ -26,17 +28,19 @@ public class UsuarioAdm extends Usuario {
                                 "Excluir conta"};               // Opcao 5
 
         oQueFazerComboBox.setModel(new DefaultComboBoxModel<>(oQueFazer));
-       
+        
+        // Cria "ouvinte de acoes" do que fazer para cada opcao
         oQueFazerComboBox.addActionListener(evt -> verificarOQueFazerActionPerformed(evt, adm));
     }
 
     private void verificarOQueFazerActionPerformed(ActionEvent evt, User adm) {
+        // pega o index da opcao e leva para cada tela especifica
         int opcao = oQueFazerComboBox.getSelectedIndex();
         switch (opcao) {
             case 0: limparPanel(evt); break;
-            case 1: new SignIn(adm).setVisible(true); this.dispose(); break;
-            case 2: new ConfigurarGenero(adm).setVisible(true); this.dispose();break;
-            case 3: new ConfigurarMusica(adm).setVisible(true); this.dispose(); break;
+            case 1: new SignIn(adm).setVisible(true); this.dispose(); break; // Leva para a tela de Cadastro de Usuarios
+            case 2: new ConfigurarGenero(adm).setVisible(true); this.dispose();break; // Leva para a tela de Configurar os Generos
+            case 3: new ConfigurarMusica(adm).setVisible(true); this.dispose(); break; // Leva para a tela de Configurar as Músicas
             case 4: alterSenhaActionPerformed(evt, adm.getUserID()); break;
             case 5: excludeAccountActionPerformed(evt, adm.getUserID()); break;
         }

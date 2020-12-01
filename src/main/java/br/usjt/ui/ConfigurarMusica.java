@@ -216,6 +216,7 @@ public class ConfigurarMusica extends FramePrincipal {
         artistaLabel.setVisible(false);
         artistaTextField.setVisible(false);
         selecionarGeneroLabel.setVisible(false);
+        generosList.setSelectedValue(null, true);
         associarGeneros.setVisible(false);
     }
 

@@ -7,6 +7,7 @@ import javax.swing.*;
 import br.usjt.model.User;
 import br.usjt.dao.UserDAO;
 
+// Herda o Frame Principal
 public class Login extends FramePrincipal {
 
     private static final long serialVersionUID = -8935881705739072112L;
@@ -25,15 +26,18 @@ public class Login extends FramePrincipal {
         Font fonteLabels = new Font("sansserif", Font.BOLD, 13);
         Color corLabels = Color.WHITE;
 
+        // Campos de username
         usrLabel = criarJLabel("Digite seu Username: ", fonteLabels, corLabels);
         usrTextField = criarJTextField();
 
+        // Campos de password   
         pwdLabel = criarJLabel("Digite sua Senha: ", fonteLabels, corLabels);
         pwdPasswordField = new JPasswordField();
 
 		loginButton = criarJButton("LOGIN");
         loginButton.addActionListener(evt -> loginButtonActionPerformed(evt));
 
+        // Adiciona os componentes no panel
         panel.add(usrLabel);
         panel.add(usrTextField);
 
@@ -42,12 +46,15 @@ public class Login extends FramePrincipal {
 
         panel.add(loginButton);
 
+        // Define layout do panel como GroupLayout
         GroupLayout layout = new GroupLayout(panel);
 		panel.setLayout(layout);
 
+        // Cria gaps entre componentes e containers automaticamente
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
-		
+        
+        // Organiza componentes no panel Horizontalmente
         layout.setHorizontalGroup(
             layout.createParallelGroup(GroupLayout.Alignment.CENTER)
             .addGroup(GroupLayout.Alignment.LEADING, 
@@ -72,6 +79,7 @@ public class Login extends FramePrincipal {
             )
         );
 
+        // Organiza componentes no panel Verticalmente
         layout.setVerticalGroup(
             layout.createSequentialGroup()
             .addGroup(
@@ -100,10 +108,10 @@ public class Login extends FramePrincipal {
             )
         );
 
-		pack();
-
+		pack(); // Agrupa tudo no panel
     }
 
+    // Funcao para login
     private void loginButtonActionPerformed(ActionEvent evt) {
         String usr = usrTextField.getText();
         // pega a senha do usuário como char[] e converte para String
@@ -112,6 +120,9 @@ public class Login extends FramePrincipal {
         try {
             UserDAO userDao = new UserDAO();
             User user = new User(usr, pwd);
+
+            // Caso encontre o username e a senha, leva para a tela especifica do user
+            // se for comum, vai para o UsuarioComum, se for adm, vai para o UsuarioAdm
             if (userDao.login(user)) {
                 if (user.getTipoUser().equals("R")) {
                     new UsuarioComum(user).setVisible(true);

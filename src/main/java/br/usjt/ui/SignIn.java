@@ -7,6 +7,7 @@ import javax.swing.*;
 import br.usjt.model.User;
 import br.usjt.dao.UserDAO;
 
+// Herda o FramePrincipal
 public class SignIn extends FramePrincipal {
     
     private static final long serialVersionUID = -6938217356257323852L;
@@ -17,6 +18,10 @@ public class SignIn extends FramePrincipal {
 	private JButton signInButton;
     private JCheckBox tipoUsrCheckBox;
 
+    // Construtor da classe de cadastro. Uso o parametro user
+    // para caso seja uma pessoa comum, ela sera, apos se cadastrar, redirecinada para a tela de userComum
+    // e caso seja um adm, ela poderá definir se o user que ela esta cadastrando sera outro adm ou nao
+    // além que ela sera redirecionada para a tela de userAdm dela mesma ao finalizar o cadastro.
     public SignIn(User user) {
         initTelaSignIn(user);
         this.setLocationRelativeTo(container);
@@ -27,28 +32,31 @@ public class SignIn extends FramePrincipal {
         Color branco = Color.WHITE;
 
         nomeLabel = criarJLabel("Digite seu primeiro nome: ", fonteLabels, branco);
-        nomeTextField = criarJTextField();
+        nomeTextField = criarJTextField(); // campo texto do nome do user
 
         usrLabel = criarJLabel("Digite ser Username: ", fonteLabels, branco);
-        usrTextField = criarJTextField();
+        usrTextField = criarJTextField(); // campo texto do username do user
 
         pwdLabel = criarJLabel("Digite uma senha: ", fonteLabels, branco);
-        pwdPasswordField = new JPasswordField();
+        pwdPasswordField = new JPasswordField(); // campo senha da senha do user
 
         confPwdJLabel = criarJLabel("Confirme sua senha: ", fonteLabels, branco);
-        confPwdPasswordField = new JPasswordField();
+        confPwdPasswordField = new JPasswordField(); // campo senha para confirmacao de senha do user
 
 		signInButton = criarJButton("SIGN IN");
-        tipoUsrCheckBox = new JCheckBox("Adm");
+        tipoUsrCheckBox = new JCheckBox("Adm"); // CheckBox usado em caso de que o usuario sendo cadastrado
+                                                // seja um adm
 
         tipoUsrCheckBox.setForeground(branco);
 
+        // Adiciona um "ouvinte de acao" para finalizar o cadastro do user
         signInButton.addActionListener(evt -> signInButtonActionPerformed(evt, user));
 
         if (!(user.getTipoUser().equals("A"))) {
             tipoUsrCheckBox.setVisible(false);
         }
 
+        // Adiciona componentes no panel
         panel.add(nomeTextField);
         panel.add(nomeTextField);
 
@@ -64,12 +72,15 @@ public class SignIn extends FramePrincipal {
         panel.add(signInButton);
         panel.add(tipoUsrCheckBox);
 
+        // Define o layout do panel
         GroupLayout layout = new GroupLayout(panel);
 		panel.setLayout(layout);
 
+        // Cria gaps entre componentes e containers automaticamente
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
-		
+
+        // Organiza componentes no panel Horizontalmente
         layout.setHorizontalGroup(
             layout.createParallelGroup(GroupLayout.Alignment.CENTER)
             .addGroup(GroupLayout.Alignment.LEADING, 
@@ -108,6 +119,7 @@ public class SignIn extends FramePrincipal {
             )
         );
 
+        // Organiza componentes no panel Verticalmente
         layout.setVerticalGroup(
             layout.createSequentialGroup()
             .addGroup(
@@ -149,9 +161,10 @@ public class SignIn extends FramePrincipal {
             )
         );
 
-		pack();
+		pack(); // Agrupa tudo no paneil
     }
 
+    // Acao para cadastrar usuario
     private void signInButtonActionPerformed(ActionEvent evt, User user) {
         String nome = nomeTextField.getText().toLowerCase();
         nome = nome.substring(0,1).toUpperCase() + nome.substring(1);
@@ -161,6 +174,7 @@ public class SignIn extends FramePrincipal {
 		String pwd = new String(pwdPasswordField.getPassword());
         String confPwd = new String(confPwdPasswordField.getPassword());
 
+        // Testes dos campos para que o cadastro seja feito corretamente
         if (!pwd.equals(confPwd)) {
             JOptionPane.showMessageDialog(null, "Suas senhas não estão iguais!", "Senhas Divergentes", 0);
         } else if ((nome.isEmpty()) || (nome.length() > 50 )) {
@@ -178,6 +192,8 @@ public class SignIn extends FramePrincipal {
                     if (userDao.signin(usuario)) {
                         userDao.login(usuario);
                         //Ir para tela de usuario dependendo do tipo
+                        // Se o usuario inicial for adm, vai para a tela de Adm, caso contrario,
+                        // vai para a tela de userComum
                         if ((!user.getTipoUser().equals("A")) && (usuario.getTipoUser().equals("R"))) {
                             new UsuarioComum(usuario).setVisible(true);
                             this.dispose();
