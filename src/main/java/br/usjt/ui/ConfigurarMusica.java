@@ -226,8 +226,8 @@ public class ConfigurarMusica extends FramePrincipal {
             case 0: limparPanel(evt); break;
             case 1: cadastrarMusicaActionPerformed(evt); break;
             case 2: verificarMusicaActionPerformed(evt); break;
-            case 3: alterarCadMusicaActionPerformed(evt); break;
-            case 4: excluirMusicaActionPerformed(evt); break;
+            // case 3: alterarCadMusicaActionPerformed(evt); break;
+            case 3: excluirMusicaActionPerformed(evt); break;
         }
     }
 
